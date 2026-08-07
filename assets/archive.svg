@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520">
+<defs><linearGradient id="g" x1="0" y1="1" x2="1"><stop stop-color="#dad7e9"/><stop offset="1" stop-color="#9c9ab7"/></linearGradient></defs>
+<rect width="900" height="520" fill="url(#g)"/>
+<rect x="185" y="110" width="530" height="315" rx="18" fill="#f3efe5"/>
+<path d="M245 165 H655 M245 220 H595 M245 275 H640 M245 330 H565" stroke="#77738a" stroke-width="16" stroke-linecap="round"/>
+<circle cx="650" cy="345" r="70" fill="none" stroke="#57536f" stroke-width="18"/>
+<path d="M700 395 L770 465" stroke="#57536f" stroke-width="22" stroke-linecap="round"/>
+<text x="55" y="72" font-family="sans-serif" font-size="30" fill="#313044" font-weight="700">档案与证据 · 示例图占位</text>
+</svg>

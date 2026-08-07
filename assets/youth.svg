@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520">
+<defs><linearGradient id="g" x1="0" x2="1" y2="1"><stop stop-color="#efdcd8"/><stop offset="1" stop-color="#c58f84"/></linearGradient></defs>
+<rect width="900" height="520" fill="url(#g)"/>
+<g fill="#fff" opacity=".9">
+<circle cx="250" cy="220" r="72"/><circle cx="450" cy="180" r="72"/><circle cx="650" cy="235" r="72"/>
+<path d="M145 425 Q250 305 355 425Z"/><path d="M345 425 Q450 265 555 425Z"/><path d="M545 425 Q650 320 755 425Z"/>
+</g>
+<text x="52" y="72" font-family="sans-serif" font-size="30" fill="#583a35" font-weight="700">青年声音 · 示例图占位</text>
+</svg>

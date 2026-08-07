@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Zoom In｜多视角文化叙事</title>
+<style>
+:root{
+  --bg:#f6f7f9;
+  --card:#fff;
+  --ink:#172033;
+  --muted:#70788a;
+  --line:#e5e8ee;
+  --blue:#165DFF;
+  --blue2:#0d47d9;
+  --soft:#eef4ff;
+  --purple:#6d5dfc;
+  --gold:#b98522;
+  --shadow:0 12px 34px rgba(23,32,51,.09);
+  --r:22px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,
+  "Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+}
+button,input{font:inherit}
+button{cursor:pointer}
+a{text-decoration:none;color:inherit}
+.hidden{display:none!important}
+.nav{
+  height:74px;background:#fff;border-bottom:1px solid var(--line);
+  display:flex;align-items:center;gap:28px;padding:0 4vw;
+  position:sticky;top:0;z-index:50;
+}
+.logo{font-size:25px;font-weight:900;letter-spacing:-.055em;white-space:nowrap}
+.logo span{color:var(--blue)}
+.navcats{display:flex;gap:24px;align-items:center}
+.navcats a{font-size:14px;font-weight:700;color:#4d5668}
+.navcats a:hover{color:var(--blue)}
+.navspacer{flex:1}
+.navsearch{
+  width:min(31vw,390px);height:44px;border:1.5px solid #cfd7e7;border-radius:999px;
+  display:flex;align-items:center;background:#f8faff;padding:0 14px;gap:10px;
+  transition:.2s;
+}
+.navsearch:focus-within{border-color:var(--blue);box-shadow:0 0 0 4px rgba(22,93,255,.08);background:#fff}
+.navsearch input{border:0;outline:0;background:transparent;width:100%;min-width:80px}
+.icon{font-size:17px}
+.auth{display:flex;gap:8px;align-items:center;white-space:nowrap}
+.textbtn,.pillbtn,.outlinebtn{
+  border:0;background:transparent;border-radius:999px;font-weight:800;
+}
+.textbtn{padding:10px 7px;color:#4b5568}
+.pillbtn{padding:11px 17px;background:var(--blue);color:#fff}
+.outlinebtn{padding:10px 15px;border:1px solid #cfd7e7;background:#fff;color:#33405a}
+.container{width:min(1440px,92vw);margin:0 auto}
+.home{padding:30px 0 55px}
+.section-title{display:flex;align-items:end;justify-content:space-between;margin:35px 0 15px;gap:20px}
+.section-title h2{font-size:28px;margin:0;letter-spacing:-.035em}
+.section-title p{margin:5px 0 0;color:var(--muted);font-size:14px}
+.link{font-size:14px;color:var(--blue);font-weight:800}
+.hero-layout{
+  display:grid;grid-template-columns:300px minmax(0,1fr);gap:22px;align-items:stretch;
+}
+.submission-rail{
+  background:#11182a;color:#fff;border-radius:var(--r);padding:18px;
+  box-shadow:var(--shadow);min-height:490px;
+}
+.rail-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.rail-head h3{margin:0;font-size:17px}
+.rail-head span{font-size:12px;color:#aab4cc}
+.rail-list{display:grid;gap:11px}
+.submission{
+  background:#1a2339;border:1px solid rgba(255,255,255,.08);
+  border-radius:16px;padding:14px;min-height:94px;transition:.2s;
+}
+.submission:hover{transform:translateY(-2px);background:#202b45}
+.submission .meta{font-size:11px;color:#99a6c4;margin-bottom:7px}
+.submission p{margin:0;font-size:13px;line-height:1.5}
+.daily{
+  min-height:490px;border-radius:var(--r);overflow:hidden;position:relative;
+  background:
+    radial-gradient(circle at 74% 22%,rgba(255,255,255,.32),transparent 25%),
+    linear-gradient(135deg,#15244a,#293a78 65%,#586bd4);
+  color:#fff;box-shadow:var(--shadow);padding:clamp(28px,4vw,58px);
+  display:flex;align-items:center;
+}
+.daily:after{
+  content:"";position:absolute;inset:auto -10% -42% 34%;height:78%;
+  border:1px solid rgba(255,255,255,.16);border-radius:50%;transform:rotate(-8deg);
+}
+.daily-content{position:relative;z-index:2;max-width:810px}
+.kicker{
+  display:inline-flex;align-items:center;gap:7px;
+  background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.17);
+  border-radius:999px;padding:8px 12px;font-size:12px;font-weight:800;
+}
+.daily h1{
+  margin:20px 0 14px;font-size:clamp(34px,4.6vw,68px);line-height:1.07;
+  letter-spacing:-.055em;max-width:900px;
+}
+.daily p{font-size:16px;line-height:1.65;color:#d9e1ff;max-width:690px;margin:0 0 25px}
+.daily-actions{display:flex;gap:11px;flex-wrap:wrap}
+.hero-btn{
+  border:0;background:#fff;color:#172c6a;padding:15px 23px;border-radius:999px;
+  font-weight:900;font-size:15px;
+}
+.hero-ghost{
+  border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.07);
+  color:#fff;padding:14px 20px;border-radius:999px;font-weight:800;
+}
+.daily-mini{
+  position:absolute;right:28px;bottom:25px;z-index:2;
+  font-size:12px;color:#c8d2ff;background:rgba(0,0,0,.12);padding:8px 11px;border-radius:999px;
+}
+.search-feature{
+  margin:24px 0 4px;background:#fff;border:1px solid var(--line);
+  border-radius:20px;padding:18px 20px;display:grid;
+  grid-template-columns:auto minmax(0,1fr) auto;gap:14px;align-items:center;
+  box-shadow:0 8px 25px rgba(23,32,51,.05)
+}
+.search-feature .bigglass{width:44px;height:44px;background:var(--soft);border-radius:13px;display:grid;place-items:center}
+.search-feature input{height:48px;border:0;outline:0;font-size:17px;width:100%;background:transparent}
+.search-feature button{border:0;background:var(--blue);color:#fff;border-radius:14px;padding:13px 22px;font-weight:900}
+.cards-row{
+  display:grid;grid-template-columns:repeat(4,minmax(245px,1fr));gap:18px;
+  overflow-x:auto;padding:2px 2px 15px;scroll-snap-type:x mandatory;
+}
+.story-card{
+  min-width:245px;background:#fff;border:1px solid var(--line);border-radius:20px;
+  overflow:hidden;box-shadow:0 8px 24px rgba(23,32,51,.06);scroll-snap-align:start;
+  transition:.2s;display:flex;flex-direction:column
+}
+.story-card:hover{transform:translateY(-4px);box-shadow:0 16px 34px rgba(23,32,51,.11)}
+.story-card img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block}
+.story-body{padding:17px 18px 18px;display:flex;flex-direction:column;flex:1}
+.tag{
+  align-self:flex-start;background:#eef4ff;color:#3158aa;border-radius:999px;
+  padding:6px 9px;font-size:11px;font-weight:900;margin-bottom:11px;
+}
+.story-card h3{font-size:20px;line-height:1.28;margin:0 0 9px}
+.story-card p{font-size:13px;color:var(--muted);line-height:1.58;margin:0 0 16px;flex:1}
+.cardbutton{
+  align-self:flex-start;border:1.5px solid var(--blue);background:#fff;color:var(--blue);
+  border-radius:999px;padding:9px 14px;font-weight:900;font-size:13px
+}
+.info-strip{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:28px
+}
+.info{
+  background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px;
+}
+.info strong{display:block;font-size:22px;margin-bottom:5px}
+.info span{font-size:13px;color:var(--muted)}
+/* search/detail article */
+.article-screen{display:none;padding:28px 0 70px}
+.article-screen.active{display:block}
+.breadcrumb{font-size:13px;color:var(--muted);margin-bottom:18px}
+.article-hero{
+  background:#fff;border:1px solid var(--line);border-radius:24px;padding:clamp(24px,4vw,48px);
+  display:grid;grid-template-columns:1.1fr .9fr;gap:32px;align-items:center;
+}
+.article-hero h1{font-size:clamp(38px,5vw,70px);margin:0 0 14px;letter-spacing:-.055em}
+.article-hero p{color:var(--muted);line-height:1.7;font-size:16px}
+.article-hero img{width:100%;border-radius:18px}
+.article-layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:28px;margin-top:24px}
+.toc{
+  position:sticky;top:98px;align-self:start;background:#fff;border:1px solid var(--line);
+  border-radius:18px;padding:17px
+}
+.toc strong{font-size:13px}
+.toc a{display:block;padding:9px 8px;border-radius:9px;font-size:13px;color:#5c6577;margin-top:4px}
+.toc a:hover{background:#f3f6fb;color:var(--blue)}
+.article-body{
+  background:#fff;border:1px solid var(--line);border-radius:22px;padding:clamp(24px,4vw,48px)
+}
+.article-body section{padding:10px 0 38px;border-bottom:1px solid var(--line);margin-bottom:31px}
+.article-body section:last-child{border:0;margin-bottom:0}
+.article-body h2{font-size:28px;margin:0 0 13px;letter-spacing:-.035em}
+.article-body p{font-size:15px;line-height:1.85;color:#3e475a}
+.source-line{
+  margin-top:14px;background:#f7f9fc;border-left:4px solid var(--blue);padding:12px 14px;
+  border-radius:8px;font-size:12px;color:#697287
+}
+.perspective-flow{display:grid;gap:13px}
+.perspective-block{border:1px solid var(--line);border-radius:16px;padding:16px}
+.perspective-block .who{font-weight:900;margin-bottom:6px}
+.perspective-block p{margin:0}
+.why-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:11px}
+.why-tags span{background:#f1f4f9;border-radius:999px;padding:7px 10px;font-size:12px;font-weight:800;color:#596377}
+/* modal */
+.overlay{position:fixed;inset:0;background:rgba(10,16,30,.62);z-index:100;display:none;align-items:center;justify-content:center;padding:20px}
+.overlay.open{display:flex}
+.modal{
+  width:min(820px,96vw);max-height:90vh;overflow:auto;background:#fff;border-radius:24px;
+  box-shadow:0 30px 80px rgba(0,0,0,.28);padding:25px
+}
+.modal-head{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:18px}
+.modal-head h2{margin:0}
+.x{border:0;background:#f1f3f7;width:38px;height:38px;border-radius:50%;font-weight:900}
+.quiz-card{background:#17244d;color:#fff;border-radius:20px;padding:28px}
+.quiz-card .small{font-size:12px;color:#bac6e8}
+.quiz-card h3{font-size:30px;line-height:1.35;margin:13px 0 22px}
+.quiz-options{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.quiz-options button{
+  border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.08);
+  color:#fff;border-radius:14px;padding:14px;text-align:left;font-weight:800
+}
+.quiz-options button:hover{background:rgba(255,255,255,.14)}
+.quiz-options button.sel{background:#fff;color:#142557}
+.quiz-feedback{margin-top:15px;color:#dfe5ff;line-height:1.6;display:none}
+.quiz-next{margin-top:18px;border:0;background:#fff;color:#17244d;border-radius:999px;padding:12px 17px;font-weight:900;display:none}
+.poster-wrap{display:none;margin-top:20px}
+.poster{
+  width:min(420px,100%);aspect-ratio:4/5;margin:0 auto;border-radius:22px;
+  background:linear-gradient(160deg,#101d48,#2f4caa 64%,#6c78dc);color:#fff;padding:30px;
+  display:flex;flex-direction:column;justify-content:space-between;box-shadow:0 18px 45px rgba(26,54,139,.25)
+}
+.poster .z{font-size:24px;font-weight:900}
+.poster .big{font-size:38px;font-weight:900;line-height:1.08;letter-spacing:-.05em}
+.poster .stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.poster .stat{background:rgba(255,255,255,.11);border-radius:14px;padding:12px}
+.poster .stat strong{display:block;font-size:22px}
+.poster .foot{font-size:12px;color:#dce3ff}
+.poster-actions{text-align:center;margin-top:14px}
+/* account drawer */
+.drawer-back{position:fixed;inset:0;background:rgba(10,16,30,.25);z-index:80;display:none}
+.drawer-back.open{display:block}
+.drawer{
+  position:fixed;right:-470px;top:0;width:min(440px,92vw);height:100vh;background:#fff;z-index:90;
+  box-shadow:-18px 0 45px rgba(23,32,51,.15);transition:.27s ease;padding:22px;overflow:auto
+}
+.drawer.open{right:0}
+.profile{background:linear-gradient(135deg,#142654,#315bd1);color:#fff;border-radius:20px;padding:20px}
+.profile-top{display:flex;gap:13px;align-items:center}
+.avatar{width:52px;height:52px;border-radius:50%;background:#fff;color:#1d3d97;display:grid;place-items:center;font-weight:900}
+.profile h3{margin:0}
+.profile p{margin:4px 0 0;color:#cdd8ff;font-size:12px}
+.points{display:flex;justify-content:space-between;margin-top:18px}
+.points strong{font-size:24px;display:block}
+.points span{font-size:11px;color:#cdd8ff}
+.tabs{display:flex;gap:8px;margin:17px 0}
+.tabs button{border:0;background:#f1f3f7;border-radius:999px;padding:9px 13px;font-weight:800;color:#60697b}
+.tabs button.active{background:#17244d;color:#fff}
+.ach-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ach{border:1px solid var(--line);border-radius:15px;padding:14px}
+.ach .medal{font-size:26px}
+.ach strong{display:block;margin:6px 0 3px}
+.ach span{font-size:11px;color:var(--muted)}
+.store{display:none;gap:10px}
+.store-item{border:1px solid var(--line);border-radius:15px;padding:14px;display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:10px}
+.store-item strong{display:block}
+.store-item span{font-size:11px;color:var(--muted)}
+.redeem{border:0;background:#f0f4ff;color:#2857c6;border-radius:999px;padding:9px 11px;font-size:12px;font-weight:900;white-space:nowrap}
+.notice{font-size:12px;color:var(--muted);line-height:1.6;margin-top:14px}
+@media(max-width:1080px){
+  .navcats{display:none}
+  .hero-layout{grid-template-columns:245px minmax(0,1fr)}
+  .cards-row{grid-template-columns:repeat(4,280px)}
+}
+@media(max-width:760px){
+  .nav{height:auto;padding:12px 4vw;flex-wrap:wrap;gap:10px}
+  .navspacer{display:none}
+  .navsearch{order:3;width:100%}
+  .auth{margin-left:auto}
+  .hero-layout{grid-template-columns:1fr}
+  .submission-rail{order:2;min-height:auto}
+  .rail-list{grid-template-columns:1fr 1fr}
+  .daily{min-height:450px}
+  .search-feature{grid-template-columns:auto 1fr}
+  .search-feature button{grid-column:1/-1}
+  .cards-row{grid-template-columns:repeat(4,84vw)}
+  .info-strip{grid-template-columns:1fr}
+  .article-hero,.article-layout{grid-template-columns:1fr}
+  .toc{position:static}
+  .quiz-options{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="logo">Zoom <span>In</span></div>
+  <div class="navcats">
+    <!-- 分类名称目前是占位，待团队确定后替换 -->
+    <a href="#" data-home>分类一</a>
+    <a href="#" data-home>分类二</a>
+    <a href="#" data-home>分类三</a>
+    <a href="#" id="submissionNav">投稿</a>
+  </div>
+  <div class="navspacer"></div>
+  <form class="navsearch" id="navSearchForm">
+    <span class="icon">⌕</span>
+    <input id="navSearchInput" placeholder="搜索主题并比较不同叙事…" autocomplete="off">
+  </form>
+  <div class="auth">
+    <button class="textbtn" id="loginBtn">登录 / 注册</button>
+    <button class="outlinebtn" id="accountBtn">账户 ◉</button>
+  </div>
+</nav>
+
+<div class="container">
+  <main class="home" id="home">
+    <div class="hero-layout">
+      <aside class="submission-rail">
+        <div class="rail-head">
+          <h3>青年投稿</h3>
+          <span>NEW</span>
+        </div>
+        <div class="rail-list">
+          <div class="submission">
+            <div class="meta">来自用户 · 示例投稿</div>
+            <p>“我第一次意识到，同一件文化遗产在不同课堂里可能拥有完全不同的关键词。”</p>
+          </div>
+          <div class="submission">
+            <div class="meta">来自用户 · 示例投稿</div>
+            <p>“如果我是策展人，我会先讲保存与展陈；如果我是学生，我可能先想到历史记忆。”</p>
+          </div>
+          <div class="submission">
+            <div class="meta">来自用户 · 示例投稿</div>
+            <p>“我想看一个关于海外博物馆中文物标签差异的挑战。”</p>
+          </div>
+          <div class="submission">
+            <div class="meta">来自用户 · 示例投稿</div>
+            <p>“这条内容先只作为布局占位，正式版再接入真实投稿审核机制。”</p>
+          </div>
+        </div>
+      </aside>
+
+      <section class="daily">
+        <div class="daily-content">
+          <div class="kicker">TODAY'S CHALLENGE · 1 MIN</div>
+          <h1>你能猜出<br>这个视角来自哪里吗？</h1>
+          <p>先做判断，再看证据，再换一个身份重新表达。今日挑战完成后，会生成一张可分享的 Zoom In 成长海报。</p>
+          <div class="daily-actions">
+            <button class="hero-btn" id="startChallenge">🎯 开启今日挑战</button>
+            <button class="hero-ghost" id="viewPosterDemo">查看分享海报示例</button>
+          </div>
+        </div>
+        <div class="daily-mini">今日主题：圆明园 · 内容占位</div>
+      </section>
+    </div>
+
+    <section class="search-feature">
+      <div class="bigglass">⌕</div>
+      <input id="bigSearchInput" placeholder="Zoom In 一个主题：例如「圆明园」—— 查看连续的多视角信息">
+      <button id="bigSearchBtn">搜索并比较</button>
+    </section>
+
+    <div class="section-title">
+      <div>
+        <h2>从一个文化对象开始 Zoom In</h2>
+        <p>横向浏览示例主题；点击后进入连续、完整的信息页，而不是碎片化卡片。</p>
+      </div>
+      <a href="#" class="link" id="seeAll">查看全部 →</a>
+    </div>
+
+    <section class="cards-row">
+      <article class="story-card" data-topic="圆明园">
+        <img src="assets/yuanmingyuan.svg" alt="圆明园示例图">
+        <div class="story-body">
+          <div class="tag">文化遗产 · 示例</div>
+          <h3>圆明园：同一个地点，为什么会有不同叙事？</h3>
+          <p>从历史记忆、建筑艺术、博物馆语境与共享遗产等角度，连续查看同一主题如何被讲述。</p>
+          <button class="cardbutton">Zoom In 详细信息</button>
+        </div>
+      </article>
+
+      <article class="story-card" data-topic="博物馆标签">
+        <img src="assets/museum.svg" alt="博物馆示例图">
+        <div class="story-body">
+          <div class="tag">博物馆 · 示例</div>
+          <h3>同一件文物，标签文字会改变理解吗？</h3>
+          <p>比较机构使命、目标受众与信息选择，观察“说明牌”如何塑造第一印象。</p>
+          <button class="cardbutton">Zoom In 详细信息</button>
+        </div>
+      </article>
+
+      <article class="story-card" data-topic="证据与来源">
+        <img src="assets/archive.svg" alt="证据示例图">
+        <div class="story-body">
+          <div class="tag">信息素养 · 示例</div>
+          <h3>一句历史说法，应该去哪里核验？</h3>
+          <p>把“看起来可信”拆成来源类型、证据范围、机构属性与可追溯性。</p>
+          <button class="cardbutton">Zoom In 详细信息</button>
+        </div>
+      </article>
+
+      <article class="story-card" data-topic="青年视角">
+        <img src="assets/youth.svg" alt="青年视角示例图">
+        <div class="story-body">
+          <div class="tag">Youth Voices · 示例</div>
+          <h3>青年会如何重新描述一个熟悉的文化符号？</h3>
+          <p>收集不同地区与背景的青年叙述，并和机构叙事、史料来源分层展示。</p>
+          <button class="cardbutton">Zoom In 详细信息</button>
+        </div>
+      </article>
+    </section>
+
+    <section class="info-strip">
+      <div class="info"><strong>Challenge</strong><span>用挑战制造认知摩擦，而不是先把知识塞给用户。</span></div>
+      <div class="info"><strong>Search</strong><span>用户产生兴趣后，再进入连续、完整、可追溯的信息。</span></div>
+      <div class="info"><strong>Community</strong><span>青年投稿与专家/机构来源分层显示，避免混成同一种“事实”。</span></div>
+    </section>
+  </main>
+
+  <main class="article-screen" id="articleScreen">
+    <div class="breadcrumb"><a href="#" id="backHome">← 返回首页</a>　/　搜索结果　/　<span id="crumbTopic">圆明园</span></div>
+
+    <section class="article-hero">
+      <div>
+        <div class="tag">ZOOM IN SEARCH · 连续信息页</div>
+        <h1 id="articleTitle">圆明园</h1>
+        <p id="articleIntro">这里展示搜索后的“连续完整信息”结构：先交代对象本身，再按不同叙事语境、证据与形成机制依次展开。当前为框架占位，正式内容需要替换为真实、可追溯资料。</p>
+      </div>
+      <img src="assets/yuanmingyuan.svg" id="articleImage" alt="主题示例图">
+    </section>
+
+    <div class="article-layout">
+      <aside class="toc">
+        <strong>本页结构</strong>
+        <a href="#overview">01 基本信息</a>
+        <a href="#perspectives">02 多视角叙事</a>
+        <a href="#evidence">03 证据与来源</a>
+        <a href="#why">04 Why Different?</a>
+        <a href="#voices">05 青年声音</a>
+        <a href="#reflect">06 反思问题</a>
+      </aside>
+
+      <article class="article-body">
+        <section id="overview">
+          <h2>01 · 基本信息</h2>
+          <p>这里先提供一段中性、必要的背景信息，让用户知道“我们在谈什么”。它不承担完整历史解释的任务，也不把某个单一叙事写成整个主题的定义。</p>
+          <div class="source-line">资料状态：占位。正式版建议显示来源、机构、日期、链接与最近核验时间。</div>
+        </section>
+
+        <section id="perspectives">
+          <h2>02 · 多视角叙事</h2>
+          <p>不同叙事不要拆成互不相干的小卡片后就结束，而是在同一条阅读路径中连续呈现，让用户可以上下比较前后差异。</p>
+          <div class="perspective-flow">
+            <div class="perspective-block">
+              <div class="who">视角 A · 示例语境</div>
+              <p>这里展示某一类叙事重点，以及它选择强调哪些事件、价值或关键词。</p>
+            </div>
+            <div class="perspective-block">
+              <div class="who">视角 B · 示例语境</div>
+              <p>这里展示另一类叙事重点。正式版应保留原始来源，不把机构复杂观点压缩成简单“国家立场”。</p>
+            </div>
+            <div class="perspective-block">
+              <div class="who">视角 C · 示例语境</div>
+              <p>这里可以放博物馆、教育资源、国际组织、青年投稿等不同来源，但要明确它们的来源类型。</p>
+            </div>
+          </div>
+        </section>
+
+        <section id="evidence">
+          <h2>03 · 证据与来源</h2>
+          <p>这一部分回答：某条说法从哪里来？它能支持什么结论？它不能支持什么结论？用户可以继续点开原始来源，而不是只相信 Zoom In 的二次转述。</p>
+          <div class="source-line">来源类型示例：机构官网 / 博物馆资料 / 学术研究 / 档案 / 教育资源 / 青年投稿。</div>
+        </section>
+
+        <section id="why">
+          <h2>04 · Why Different?</h2>
+          <p>这里不写一段“平台给出标准解释”的长文，而是把叙事差异拆成可点开的形成因素。正式版可以基于资料与专家审校逐条解释。</p>
+          <div class="why-tags">
+            <span>历史经验</span><span>机构使命</span><span>教育目标</span><span>目标受众</span><span>公共记忆</span><span>文化身份</span>
+          </div>
+        </section>
+
+        <section id="voices">
+          <h2>05 · 青年声音</h2>
+          <p>把投稿作为“Community Perspective”单独呈现，不与史实资料混在一起。可以显示投稿者所处地区、看过哪些资料，以及观点是否附带证据。</p>
+        </section>
+
+        <section id="reflect">
+          <h2>06 · 你现在怎么想？</h2>
+          <p>最后不是问“谁是正确答案”，而是让用户回看自己的判断：哪一种叙事最出乎意料？你现在还会不会只看一个来源？如果换一个身份，你会怎样重新介绍这个主题？</p>
+          <button class="pillbtn" id="articleChallenge">用这个主题做一次 Perspective Challenge</button>
+        </section>
+      </article>
+    </div>
+  </main>
+</div>
+
+<!-- Challenge modal -->
+<div class="overlay" id="challengeOverlay">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <div class="tag">TODAY'S CHALLENGE</div>
+        <h2>今日挑战 · 原型流程</h2>
+      </div>
+      <button class="x" data-close="challengeOverlay">×</button>
+    </div>
+
+    <div class="quiz-card" id="quizArea">
+      <div class="small">LEVEL 1 · BLIND GUESS</div>
+      <h3>“这是一条用于框架演示的文化叙事。”<br>你觉得它最可能来自哪里？</h3>
+      <div class="quiz-options" id="quizOptions">
+        <button>中国教育资源</button>
+        <button>英国机构</button>
+        <button>法国机构</button>
+        <button>国际组织</button>
+      </div>
+      <div class="quiz-feedback" id="quizFeedback">你已经先做了一次判断。正式版在这里揭示来源、给出证据，并继续进入 Compare → Evidence → Perspective Swap。</div>
+      <button class="quiz-next" id="finishChallenge">完成今日挑战并生成海报 →</button>
+    </div>
+
+    <div class="poster-wrap" id="posterWrap">
+      <div class="poster" id="sharePoster">
+        <div class="z">Zoom In.</div>
+        <div>
+          <div style="font-size:12px;color:#dce3ff;margin-bottom:9px">TODAY'S PERSPECTIVE GROWTH</div>
+          <div class="big">我今天<br>多看见了<br>3 个视角。</div>
+        </div>
+        <div class="stats">
+          <div class="stat"><span>Challenge</span><strong>✓</strong></div>
+          <div class="stat"><span>Perspective</span><strong>+3</strong></div>
+        </div>
+        <div class="foot">不是更快地下结论，而是更慢一点地理解叙事。<br>zoom in · prototype</div>
+      </div>
+      <div class="poster-actions">
+        <button class="pillbtn" id="downloadPoster">下载分享海报 PNG</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Account drawer -->
+<div class="drawer-back" id="drawerBack"></div>
+<aside class="drawer" id="accountDrawer">
+  <div class="modal-head">
+    <h2>我的 Zoom In</h2>
+    <button class="x" id="closeDrawer">×</button>
+  </div>
+  <div class="profile">
+    <div class="profile-top">
+      <div class="avatar">ZI</div>
+      <div><h3>示例账户</h3><p>账户体系目前仅作交互框架</p></div>
+    </div>
+    <div class="points">
+      <div><strong>Lv. 3</strong><span>当前等级</span></div>
+      <div><strong>1,280</strong><span>Zoom Points</span></div>
+      <div><strong>12</strong><span>完成挑战</span></div>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="active" data-tab="achievements">成就等级</button>
+    <button data-tab="store">积分商城</button>
+  </div>
+
+  <div id="achievements">
+    <div class="ach-grid">
+      <div class="ach"><div class="medal">◉</div><strong>Perspective Builder</strong><span>完成一次完整视角挑战</span></div>
+      <div class="ach"><div class="medal">⌕</div><strong>Source Seeker</strong><span>完成来源核验任务</span></div>
+      <div class="ach"><div class="medal">↔</div><strong>Perspective Swap</strong><span>完成身份互换练习</span></div>
+      <div class="ach"><div class="medal">7</div><strong>7-Day Streak</strong><span>连续完成每日挑战</span></div>
+    </div>
+  </div>
+
+  <div class="store" id="store">
+    <div class="store-item"><div><strong>主题海报模板</strong><span>兑换一个新的分享海报版式</span></div><button class="redeem">300 积分</button></div>
+    <div class="store-item"><div><strong>个人主页徽章框</strong><span>用于展示成就等级</span></div><button class="redeem">500 积分</button></div>
+    <div class="store-item"><div><strong>挑战主题投票券</strong><span>参与下周主题选择</span></div><button class="redeem">200 积分</button></div>
+  </div>
+
+  <div class="notice">以上等级、积分数量、商城物品都只是结构占位。正式规则需要你们确认后再设计，避免先把激励机制做死。</div>
+</aside>
+
+<script>
+const home = document.getElementById("home");
+const articleScreen = document.getElementById("articleScreen");
+const articleTitle = document.getElementById("articleTitle");
+const crumbTopic = document.getElementById("crumbTopic");
+const articleIntro = document.getElementById("articleIntro");
+
+function showArticle(topic){
+  const t = topic && topic.trim() ? topic.trim() : "未命名主题";
+  articleTitle.textContent = t;
+  crumbTopic.textContent = t;
+  articleIntro.textContent = `这里是“${t}”的连续完整信息框架。正式版将按基本信息 → 多视角叙事 → 证据来源 → Why Different → 青年声音 → 反思的顺序展开。`;
+  home.style.display = "none";
+  articleScreen.classList.add("active");
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+function showHome(){
+  articleScreen.classList.remove("active");
+  home.style.display = "block";
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+document.getElementById("backHome").addEventListener("click",e=>{e.preventDefault();showHome()});
+document.querySelectorAll("[data-home]").forEach(a=>a.addEventListener("click",e=>{e.preventDefault();showHome()}));
+
+document.querySelectorAll(".story-card").forEach(card=>{
+  card.addEventListener("click",()=>showArticle(card.dataset.topic));
+});
+document.getElementById("seeAll").addEventListener("click",e=>{e.preventDefault();showArticle("全部主题（结构占位）")});
+
+function doSearch(value){
+  if(!value.trim()) return;
+  showArticle(value);
+}
+document.getElementById("navSearchForm").addEventListener("submit",e=>{
+  e.preventDefault(); doSearch(document.getElementById("navSearchInput").value);
+});
+document.getElementById("bigSearchBtn").addEventListener("click",()=>doSearch(document.getElementById("bigSearchInput").value));
+document.getElementById("bigSearchInput").addEventListener("keydown",e=>{
+  if(e.key==="Enter") doSearch(e.target.value);
+});
+
+/* challenge */
+const overlay = document.getElementById("challengeOverlay");
+function openChallenge(){
+  overlay.classList.add("open");
+  document.getElementById("quizArea").style.display="block";
+  document.getElementById("posterWrap").style.display="none";
+  document.getElementById("quizFeedback").style.display="none";
+  document.getElementById("finishChallenge").style.display="none";
+  document.querySelectorAll("#quizOptions button").forEach(b=>b.classList.remove("sel"));
+}
+document.getElementById("startChallenge").addEventListener("click",openChallenge);
+document.getElementById("articleChallenge").addEventListener("click",openChallenge);
+document.querySelectorAll("#quizOptions button").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    document.querySelectorAll("#quizOptions button").forEach(b=>b.classList.remove("sel"));
+    btn.classList.add("sel");
+    document.getElementById("quizFeedback").style.display="block";
+    document.getElementById("finishChallenge").style.display="inline-block";
+  })
+});
+document.getElementById("finishChallenge").addEventListener("click",()=>{
+  document.getElementById("quizArea").style.display="none";
+  document.getElementById("posterWrap").style.display="block";
+});
+document.getElementById("viewPosterDemo").addEventListener("click",()=>{
+  overlay.classList.add("open");
+  document.getElementById("quizArea").style.display="none";
+  document.getElementById("posterWrap").style.display="block";
+});
+document.querySelectorAll("[data-close]").forEach(b=>b.addEventListener("click",()=>document.getElementById(b.dataset.close).classList.remove("open")));
+overlay.addEventListener("click",e=>{ if(e.target===overlay) overlay.classList.remove("open") });
+
+/* Real PNG poster export with browser canvas */
+document.getElementById("downloadPoster").addEventListener("click",()=>{
+  const c=document.createElement("canvas"); c.width=1080; c.height=1350;
+  const ctx=c.getContext("2d");
+  const g=ctx.createLinearGradient(0,0,1080,1350);
+  g.addColorStop(0,"#101d48"); g.addColorStop(.65,"#2f4caa"); g.addColorStop(1,"#6c78dc");
+  ctx.fillStyle=g;ctx.fillRect(0,0,c.width,c.height);
+  ctx.fillStyle="#fff";ctx.font="900 64px system-ui";ctx.fillText("Zoom In.",80,110);
+  ctx.fillStyle="#dce3ff";ctx.font="700 28px system-ui";ctx.fillText("TODAY'S PERSPECTIVE GROWTH",80,330);
+  ctx.fillStyle="#fff";ctx.font="900 98px system-ui";
+  ctx.fillText("我今天",80,470);ctx.fillText("多看见了",80,585);ctx.fillText("3 个视角。",80,700);
+  ctx.fillStyle="rgba(255,255,255,.12)";ctx.roundRect(80,840,420,170,28);ctx.fill();ctx.roundRect(530,840,420,170,28);ctx.fill();
+  ctx.fillStyle="#dce3ff";ctx.font="600 26px system-ui";ctx.fillText("Challenge",115,900);ctx.fillText("Perspective",565,900);
+  ctx.fillStyle="#fff";ctx.font="900 64px system-ui";ctx.fillText("✓",115,975);ctx.fillText("+3",565,975);
+  ctx.fillStyle="#dce3ff";ctx.font="500 25px system-ui";ctx.fillText("不是更快地下结论，而是更慢一点地理解叙事。",80,1200);
+  ctx.fillText("zoom in · prototype",80,1250);
+  const a=document.createElement("a");a.download="zoom-in-perspective-growth.png";a.href=c.toDataURL("image/png");a.click();
+});
+
+/* account drawer */
+const drawer=document.getElementById("accountDrawer"), back=document.getElementById("drawerBack");
+function openDrawer(){drawer.classList.add("open");back.classList.add("open")}
+function closeDrawer(){drawer.classList.remove("open");back.classList.remove("open")}
+document.getElementById("accountBtn").addEventListener("click",openDrawer);
+document.getElementById("loginBtn").addEventListener("click",openDrawer);
+document.getElementById("closeDrawer").addEventListener("click",closeDrawer);
+back.addEventListener("click",closeDrawer);
+
+document.querySelectorAll(".tabs button").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    document.querySelectorAll(".tabs button").forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
+    const isStore=btn.dataset.tab==="store";
+    document.getElementById("store").style.display=isStore?"block":"none";
+    document.getElementById("achievements").style.display=isStore?"none":"block";
+  });
+});
+document.querySelectorAll(".redeem").forEach(b=>b.addEventListener("click",()=>{
+  b.textContent="原型占位"; setTimeout(()=>b.textContent=b.dataset.old||"积分兑换",1000)
+}));
+document.getElementById("submissionNav").addEventListener("click",e=>{
+  e.preventDefault();showHome();document.querySelector(".submission-rail").scrollIntoView({behavior:"smooth",block:"center"});
+});
+</script>
+</body>
+</html>

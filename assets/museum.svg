@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520">
+<defs><linearGradient id="g" x1="0" x2="1"><stop stop-color="#e9e2d9"/><stop offset="1" stop-color="#c9b79e"/></linearGradient></defs>
+<rect width="900" height="520" fill="url(#g)"/>
+<path d="M180 205 L450 95 L720 205 Z" fill="#4d4a47"/>
+<rect x="185" y="210" width="530" height="35" rx="5" fill="#4d4a47"/>
+<g fill="#f5f1ea"><rect x="235" y="245" width="45" height="170"/><rect x="335" y="245" width="45" height="170"/><rect x="435" y="245" width="45" height="170"/><rect x="535" y="245" width="45" height="170"/><rect x="635" y="245" width="45" height="170"/></g>
+<rect x="170" y="415" width="560" height="35" fill="#4d4a47"/>
+<text x="52" y="72" font-family="sans-serif" font-size="30" fill="#37322e" font-weight="700">博物馆叙事 · 示例图占位</text>
+</svg>
