@@ -1,0 +1,124 @@
+{
+  "topic_id": "yuanmingyuan",
+  "topic": "圆明园",
+  "date": "2026-08-08",
+  "question_count": 7,
+  "questions": [
+    {
+      "id": "q010",
+      "type": "叙事重点识别",
+      "prompt": "阅读下面这篇资料的简短摘要：\n\n本报北京10月13日电 （记者赵晓霞）记者从国家文物局获悉，7件石柱文物近日回归原属地——圆明园，这是继马首铜像之后，又一批回归圆明园的流失海外重要文物。 10月13日，这些石柱在当日开幕的“圆明园石柱回归展”上亮相。 7件石柱文物原系圆明园建筑构件，1860年英法联军劫掠后流失海外，后为挪威卑尔根科德博物馆及西挪威艺术博物馆收藏。\n\n它最明显的叙事重点是什么？",
+      "options": [
+        "遗址保护与修复",
+        "文物流失与回归",
+        "国际合作与风险管理"
+      ],
+      "answer": "文物流失与回归",
+      "explanation": "判断叙事重点不是判断文章“支持谁”，而是观察文章反复选择和强调哪些事实与关键词。\n\n这篇资料识别出的主要重点为：文物流失与回归、历史记忆与战争、建筑与园林艺术。",
+      "source_links": [
+        "https://paper.people.com.cn/rmrbhwb/html/2023-10/14/content_26021493.htm"
+      ],
+      "source_articles": [
+        "七件流失海外石柱文物回归圆明园"
+      ]
+    },
+    {
+      "id": "q027",
+      "type": "你会先查哪个来源",
+      "prompt": "如果你想了解圆明园及北京历史园林在遗产保护、风险管理和国际合作方面的讨论，你会优先查看哪个来源？",
+      "options": [
+        "UNESCO",
+        "只看社交媒体评论",
+        "只看旅游宣传海报",
+        "随机选择一个短视频"
+      ],
+      "answer": "UNESCO",
+      "explanation": "这不是说 UNESCO 在所有问题上都一定比其他来源更可靠。这里的关键是“信息需求”。如果问题涉及遗产保护与国际合作，国际组织的相关原始材料具有较高的直接相关性。",
+      "source_links": [
+        "https://www.unesco.org/en/articles/beijings-parks-and-gardens-celebrated-2025-international-day-monuments-and-sites"
+      ],
+      "source_articles": [
+        "Beijing’s Parks and Gardens Celebrated the 2025 International Day of"
+      ]
+    },
+    {
+      "id": "q031",
+      "type": "身份互换",
+      "prompt": "Perspective Swap\n\n假设你是一位博物馆策展人，请用不超过 50 字介绍圆明园。\n\n你会优先选择哪些信息？",
+      "options": [],
+      "answer": null,
+      "explanation": "这是一道开放题，没有唯一答案。完成后可以比较：如果你换成历史教师、国际组织工作人员或青年游客，你的信息选择是否会发生变化？",
+      "source_links": [],
+      "source_articles": []
+    },
+    {
+      "id": "q016",
+      "type": "来源类型判断",
+      "prompt": "「人民网」在这份资料中属于哪一种来源类型？",
+      "options": [
+        "青年投稿",
+        "国际组织",
+        "博物馆",
+        "新闻媒体"
+      ],
+      "answer": "新闻媒体",
+      "explanation": "这里将「人民网」标记为「新闻媒体」。\n\n来源类型会影响它的内容目的，但来源类型本身不能直接等同于“可信”或“不可信”。",
+      "source_links": [
+        "https://paper.people.com.cn/hqrw/html/2009-03/20/content_266439.htm"
+      ],
+      "source_articles": [
+        "圆明园和兽首的劫难"
+      ]
+    },
+    {
+      "id": "q022",
+      "type": "找证据",
+      "prompt": "下面哪一段材料最能支持“这篇文章重点关注「文物流失与回归」”这一判断？",
+      "options": [
+        "史料中并没有明确记载，海晏堂的十二生肖铜兽首究竟何时经何人掠走，在1860年英法联军劫掠圆明园后，上报给法国政府的“缴获战利品”清单中也没有这两个兽首的记录。",
+        "Such situation calls for a holistic, integrated approach in heritage conservation and management.",
+        "博物馆内现有“传承·守望——圆明园文物保护成果展”“百年梦圆——圆明园马首铜像回归展”“圆明园石柱回归展”，系统展示了圆明园修缮复建、考古发掘、遗址保护、文物修复、流失文物研究与追索等成果。",
+        "1860年，英法联军侵入北京，圆明园惨遭劫掠焚毁，马首铜像与其他11尊兽首铜像流失海外。"
+      ],
+      "answer": "史料中并没有明确记载，海晏堂的十二生肖铜兽首究竟何时经何人掠走，在1860年英法联军劫掠圆明园后，上报给法国政府的“缴获战利品”清单中也没有这两个兽首的记录。",
+      "explanation": "信息素养训练的重点是：先提出判断，再回到原始材料寻找能够支持这一判断的证据。叙事分析不能只凭感觉。",
+      "source_links": [
+        "https://paper.people.com.cn/hqrw/html/2009-03/20/content_266439.htm"
+      ],
+      "source_articles": [
+        "圆明园和兽首的劫难"
+      ]
+    },
+    {
+      "id": "q029",
+      "type": "媒体与机构比较",
+      "prompt": "根据目前 Zoom In 收集到的圆明园资料，下面哪种说法更接近当前材料呈现出的差异？",
+      "options": [
+        "人民网材料较多涉及文物流失、回归、遗址与历史记忆；UNESCO材料更突出遗产保护、园林管理与国际合作。",
+        "所有来源完全使用相同的信息和叙事重点。",
+        "UNESCO只讨论战争，人民网只讨论旅游。",
+        "不同机构之间不存在信息选择差异。"
+      ],
+      "answer": "人民网材料较多涉及文物流失、回归、遗址与历史记忆；UNESCO材料更突出遗产保护、园林管理与国际合作。",
+      "explanation": "这是根据目前已经收集的材料做出的比较，不代表人民网、UNESCO或任何国家存在唯一、固定不变的“统一视角”。随着新资料加入，这个比较也应该继续更新。",
+      "source_links": [
+        "https://paper.people.com.cn/rmrbhwb/html/2024-03/12/content_26046257.htm",
+        "https://www.unesco.org/en/articles/beijings-parks-and-gardens-celebrated-2025-international-day-monuments-and-sites"
+      ],
+      "source_articles": [
+        "“万园之园”重现光华（探访国家考古遗址公园）",
+        "Beijing’s Parks and Gardens Celebrated the 2025 International Day of"
+      ]
+    },
+    {
+      "id": "q033",
+      "type": "反思",
+      "prompt": "完成比较以后，哪一个来源或哪一种叙事重点最改变你原来对圆明园的理解？请说明原因。",
+      "options": [],
+      "answer": null,
+      "explanation": "没有标准答案。Zoom In 希望记录的是用户在比较不同来源前后的认知变化。",
+      "source_links": [],
+      "source_articles": []
+    }
+  ]
+}

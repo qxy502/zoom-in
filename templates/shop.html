@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>积分商城 · Zoom In</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+
+    <style>
+
+        body {
+            background: #f7f8fb;
+        }
+
+
+        .shop-header {
+            background: rgba(247, 248, 251, 0.94);
+
+            border-bottom: 1px solid #e4e7ec;
+        }
+
+
+        .shop-header-inner {
+            width: min(1180px, calc(100% - 48px));
+            min-height: 72px;
+
+            margin: 0 auto;
+
+            display: flex;
+            align-items: center;
+        }
+
+
+        .shop-header-actions {
+            margin-left: auto;
+
+            display: flex;
+            gap: 22px;
+
+            font-size: 14px;
+        }
+
+
+        .shop-header-actions a {
+            color: #656b77;
+        }
+
+
+        .shop-page {
+            width: min(1180px, calc(100% - 48px));
+
+            margin: 0 auto;
+
+            padding: 80px 0 120px;
+        }
+
+
+        /* =====================================================
+           Hero
+        ===================================================== */
+
+        .shop-hero {
+            min-height: 380px;
+
+            padding-bottom: 75px;
+
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 50px;
+
+            border-bottom: 1px solid #e1e4e9;
+        }
+
+
+        .shop-hero h1 {
+            max-width: 750px;
+
+            margin: 0;
+
+            font-size: clamp(52px, 7vw, 84px);
+
+            line-height: 1.02;
+            letter-spacing: -4px;
+        }
+
+
+        .shop-hero-description {
+            max-width: 600px;
+
+            margin-top: 28px;
+
+            color: #707783;
+
+            line-height: 1.8;
+        }
+
+
+        .current-points {
+            min-width: 230px;
+
+            padding: 27px;
+
+            background: #17191f;
+            color: white;
+
+            border-radius: 20px;
+        }
+
+
+        .current-points-label {
+            color: #aeb4c0;
+
+            font-size: 11px;
+            letter-spacing: 1.2px;
+        }
+
+
+        .current-points strong {
+            display: block;
+
+            margin-top: 12px;
+
+            font-size: 50px;
+        }
+
+
+        .current-points span {
+            color: #aeb4c0;
+
+            font-size: 12px;
+        }
+
+
+        /* =====================================================
+           商品
+        ===================================================== */
+
+        .shop-section {
+            padding-top: 90px;
+        }
+
+
+        .shop-section h2 {
+            margin: 0 0 35px;
+
+            font-size: 42px;
+            letter-spacing: -1.5px;
+        }
+
+
+        .product-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 18px;
+        }
+
+
+        .product-card {
+            min-height: 410px;
+
+            padding: 30px;
+
+            display: flex;
+            flex-direction: column;
+
+            background: white;
+
+            border: 1px solid #e0e3e9;
+            border-radius: 22px;
+        }
+
+
+        .product-card:nth-child(2) {
+            background: #eef2ff;
+
+            border-color: #dce3ff;
+        }
+
+
+        .product-card:nth-child(4) {
+            background: #17191f;
+            color: white;
+        }
+
+
+        .product-type {
+            font-size: 11px;
+
+            color: #7c838e;
+
+            letter-spacing: 1.2px;
+        }
+
+
+        .product-card:nth-child(4)
+        .product-type {
+            color: #9ea5b1;
+        }
+
+
+        .product-visual {
+            height: 145px;
+
+            margin: 30px 0;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background:
+                rgba(
+                    65,
+                    105,
+                    225,
+                    0.08
+                );
+
+            border-radius: 16px;
+
+            font-size: 50px;
+            font-weight: 800;
+        }
+
+
+        .product-card:nth-child(4)
+        .product-visual {
+            background:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.08
+                );
+        }
+
+
+        .product-card h3 {
+            margin: 0;
+
+            font-size: 25px;
+        }
+
+
+        .product-description {
+            margin: 10px 0 25px;
+
+            color: #777e89;
+
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+
+        .product-card:nth-child(4)
+        .product-description {
+            color: #aeb4bf;
+        }
+
+
+        .product-bottom {
+            margin-top: auto;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+
+        .product-price strong {
+            font-size: 25px;
+        }
+
+
+        .product-price span {
+            color: #888e99;
+
+            font-size: 11px;
+        }
+
+
+        .redeem-button {
+            padding: 11px 16px;
+
+            border: 0;
+            border-radius: 10px;
+
+            background: #4169e1;
+            color: white;
+
+            font-family: inherit;
+            font-weight: 700;
+
+            cursor: pointer;
+        }
+
+
+        .redeem-button:disabled {
+            opacity: 0.4;
+
+            cursor: not-allowed;
+        }
+
+
+        /* =====================================================
+           提示
+        ===================================================== */
+
+        .shop-note {
+            margin-top: 70px;
+
+            padding: 25px;
+
+            background: white;
+
+            border: 1px solid #e1e4e9;
+            border-radius: 16px;
+
+            color: #707783;
+
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+
+        /* =====================================================
+           弹窗
+        ===================================================== */
+
+        .redeem-modal {
+            position: fixed;
+
+            inset: 0;
+
+            z-index: 1000;
+
+            display: none;
+
+            align-items: center;
+            justify-content: center;
+
+            padding: 25px;
+
+            background:
+                rgba(
+                    10,
+                    12,
+                    18,
+                    0.55
+                );
+        }
+
+
+        .redeem-modal.visible {
+            display: flex;
+        }
+
+
+        .redeem-box {
+            width: min(430px, 100%);
+
+            padding: 35px;
+
+            background: white;
+
+            border-radius: 22px;
+        }
+
+
+        .redeem-box h3 {
+            margin: 0 0 10px;
+
+            font-size: 26px;
+        }
+
+
+        .redeem-box p {
+            color: #707783;
+
+            line-height: 1.7;
+        }
+
+
+        .redeem-modal-actions {
+            margin-top: 28px;
+
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+
+        .modal-button {
+            padding: 11px 16px;
+
+            border: 0;
+            border-radius: 10px;
+
+            font-family: inherit;
+            font-weight: 700;
+
+            cursor: pointer;
+        }
+
+
+        .modal-button.cancel {
+            background: #eef0f4;
+        }
+
+
+        .modal-button.confirm {
+            background: #4169e1;
+            color: white;
+        }
+
+
+        @media (max-width: 800px) {
+
+            .shop-hero {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+
+            .current-points {
+                width: 100%;
+            }
+
+
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+
+        @media (max-width: 550px) {
+
+            .shop-page,
+            .shop-header-inner {
+                width: calc(100% - 30px);
+            }
+
+
+            .shop-hero h1 {
+                letter-spacing: -2.5px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header class="shop-header">
+
+    <div class="shop-header-inner">
+
+        <a
+            class="logo"
+            href="{{ url_for('home') }}"
+        >
+            Zoom In
+        </a>
+
+
+        <div class="shop-header-actions">
+
+            <a href="{{ url_for('profile') }}">
+                我的主页
+            </a>
+
+            <a href="{{ url_for('challenge') }}">
+                今日挑战
+            </a>
+
+            <a href="{{ url_for('home') }}">
+                返回首页
+            </a>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+
+<main class="shop-page">
+
+
+    <!-- =====================================================
+         Hero
+    ====================================================== -->
+
+    <section class="shop-hero">
+
+        <div>
+
+            <p class="eyebrow">
+                ZOOM IN POINTS SHOP
+            </p>
+
+            <h1>
+                学习积分，
+                <br>
+                换一点文化灵感。
+            </h1>
+
+
+            <p class="shop-hero-description">
+                完成挑战、核验来源和提交优质资料，
+                都可以获得积分。
+                Hackathon 演示版本中的兑换为模拟功能。
+            </p>
+
+        </div>
+
+
+        <div class="current-points">
+
+            <div class="current-points-label">
+                AVAILABLE POINTS
+            </div>
+
+            <strong id="currentPoints">
+                320
+            </strong>
+
+            <span>
+                可用积分
+            </span>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         商品
+    ====================================================== -->
+
+    <section class="shop-section">
+
+        <p class="eyebrow">
+            REWARDS
+        </p>
+
+        <h2>
+            文创兑换
+        </h2>
+
+
+        <div class="product-grid">
+
+
+            <!-- 产品1 -->
+
+            <div class="product-card">
+
+                <span class="product-type">
+                    ZOOM IN ORIGINAL
+                </span>
+
+
+                <div class="product-visual">
+                    Z+
+                </div>
+
+
+                <h3>
+                    Zoom In 主题贴纸包
+                </h3>
+
+
+                <p class="product-description">
+                    Source Checker、Perspective Swap、
+                    Zoom In Logo 等主题贴纸。
+                </p>
+
+
+                <div class="product-bottom">
+
+                    <div class="product-price">
+
+                        <strong>
+                            80
+                        </strong>
+
+                        <span>
+                            pts
+                        </span>
+
+                    </div>
+
+
+                    <button
+                        class="redeem-button"
+                        data-name="Zoom In 主题贴纸包"
+                        data-price="80"
+                    >
+                        兑换
+                    </button>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- 产品2 -->
+
+            <div class="product-card">
+
+                <span class="product-type">
+                    MUSEUM CULTURE
+                </span>
+
+
+                <div class="product-visual">
+                    POST
+                </div>
+
+
+                <h3>
+                    博物馆主题明信片
+                </h3>
+
+
+                <p class="product-description">
+                    文化遗产与建筑主题明信片，
+                    用于 Hackathon 奖励机制展示。
+                </p>
+
+
+                <div class="product-bottom">
+
+                    <div class="product-price">
+
+                        <strong>
+                            150
+                        </strong>
+
+                        <span>
+                            pts
+                        </span>
+
+                    </div>
+
+
+                    <button
+                        class="redeem-button"
+                        data-name="博物馆主题明信片"
+                        data-price="150"
+                    >
+                        兑换
+                    </button>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- 产品3 -->
+
+            <div class="product-card">
+
+                <span class="product-type">
+                    YUANMINGYUAN
+                </span>
+
+
+                <div class="product-visual">
+                    圆
+                </div>
+
+
+                <h3>
+                    圆明园主题文创
+                </h3>
+
+
+                <p class="product-description">
+                    圆明园文化主题纪念品展示位。
+                    实际合作商品可在后续版本替换。
+                </p>
+
+
+                <div class="product-bottom">
+
+                    <div class="product-price">
+
+                        <strong>
+                            300
+                        </strong>
+
+                        <span>
+                            pts
+                        </span>
+
+                    </div>
+
+
+                    <button
+                        class="redeem-button"
+                        data-name="圆明园主题文创"
+                        data-price="300"
+                    >
+                        兑换
+                    </button>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- 产品4 -->
+
+            <div class="product-card">
+
+                <span class="product-type">
+                    CULTURAL GIFT
+                </span>
+
+
+                <div class="product-visual">
+                    GIFT
+                </div>
+
+
+                <h3>
+                    景区文化主题礼盒
+                </h3>
+
+
+                <p class="product-description">
+                    高积分奖励展示。
+                    Demo 阶段不收集地址，也不进行真实配送。
+                </p>
+
+
+                <div class="product-bottom">
+
+                    <div class="product-price">
+
+                        <strong>
+                            600
+                        </strong>
+
+                        <span>
+                            pts
+                        </span>
+
+                    </div>
+
+
+                    <button
+                        class="redeem-button"
+                        data-name="景区文化主题礼盒"
+                        data-price="600"
+                    >
+                        兑换
+                    </button>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+
+    <div class="shop-note">
+
+        当前为 Hackathon 演示商城。
+        积分与兑换结果只保存在当前浏览器中，
+        不涉及真实库存、支付、地址或物流。
+
+    </div>
+
+
+</main>
+
+
+
+<!-- =========================================================
+     兑换确认
+========================================================= -->
+
+<div
+    class="redeem-modal"
+    id="redeemModal"
+>
+
+    <div class="redeem-box">
+
+        <p class="eyebrow">
+            REDEEM
+        </p>
+
+        <h3 id="redeemProductName">
+            确认兑换？
+        </h3>
+
+
+        <p id="redeemDescription">
+        </p>
+
+
+        <div class="redeem-modal-actions">
+
+            <button
+                class="modal-button cancel"
+                id="cancelRedeem"
+            >
+                取消
+            </button>
+
+            <button
+                class="modal-button confirm"
+                id="confirmRedeem"
+            >
+                确认兑换
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<script>
+
+    /*
+     * Demo 积分系统
+     */
+
+    let points =
+        Number(
+            localStorage.getItem(
+                "zoomInPoints"
+            )
+        );
+
+
+    if (
+        !Number.isFinite(points)
+        ||
+        points <= 0
+    ) {
+
+        points = 320;
+
+        localStorage.setItem(
+            "zoomInPoints",
+            points
+        );
+
+    }
+
+
+    const currentPoints =
+        document.getElementById(
+            "currentPoints"
+        );
+
+
+    const modal =
+        document.getElementById(
+            "redeemModal"
+        );
+
+
+    const productName =
+        document.getElementById(
+            "redeemProductName"
+        );
+
+
+    const redeemDescription =
+        document.getElementById(
+            "redeemDescription"
+        );
+
+
+    let selectedProduct = null;
+
+
+    function updatePointsDisplay() {
+
+        currentPoints.textContent =
+            points;
+
+
+        document
+            .querySelectorAll(
+                ".redeem-button"
+            )
+            .forEach(
+                function (
+                    button
+                ) {
+
+                    const price =
+                        Number(
+                            button.dataset.price
+                        );
+
+
+                    button.disabled =
+                        points < price;
+
+
+                    if (
+                        points < price
+                    ) {
+
+                        button.textContent =
+                            "积分不足";
+
+                    }
+
+                    else {
+
+                        button.textContent =
+                            "兑换";
+
+                    }
+
+                }
+            );
+
+    }
+
+
+    document
+        .querySelectorAll(
+            ".redeem-button"
+        )
+        .forEach(
+            function (
+                button
+            ) {
+
+                button.addEventListener(
+                    "click",
+                    function () {
+
+                        selectedProduct = {
+                            name:
+                                button.dataset.name,
+
+                            price:
+                                Number(
+                                    button.dataset.price
+                                )
+                        };
+
+
+                        productName.textContent =
+                            selectedProduct.name;
+
+
+                        redeemDescription.textContent =
+                            "将使用 "
+                            +
+                            selectedProduct.price
+                            +
+                            " 积分进行模拟兑换。";
+
+
+                        modal.classList.add(
+                            "visible"
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+
+    document.getElementById(
+        "cancelRedeem"
+    ).addEventListener(
+        "click",
+        function () {
+
+            modal.classList.remove(
+                "visible"
+            );
+
+        }
+    );
+
+
+    document.getElementById(
+        "confirmRedeem"
+    ).addEventListener(
+        "click",
+        function () {
+
+            if (!selectedProduct) {
+                return;
+            }
+
+
+            if (
+                points
+                <
+                selectedProduct.price
+            ) {
+
+                alert(
+                    "积分不足。"
+                );
+
+                modal.classList.remove(
+                    "visible"
+                );
+
+                return;
+
+            }
+
+
+            points -=
+                selectedProduct.price;
+
+
+            localStorage.setItem(
+                "zoomInPoints",
+                points
+            );
+
+
+            updatePointsDisplay();
+
+
+            modal.classList.remove(
+                "visible"
+            );
+
+
+            alert(
+                "兑换成功！\n\n"
+                +
+                selectedProduct.name
+                +
+                "\n\n"
+                +
+                "这是 Hackathon 模拟兑换。"
+            );
+
+        }
+    );
+
+
+    updatePointsDisplay();
+
+</script>
+
+
+</body>
+
+</html>

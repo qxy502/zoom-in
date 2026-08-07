@@ -1,0 +1,2667 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>今日挑战 · Zoom In</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+    <style>
+
+        body {
+            background: #f5f6f8;
+        }
+
+        .challenge-page-header {
+            background: white;
+            border-bottom: 1px solid #e5e7ec;
+        }
+
+        .challenge-page-header-inner {
+            width: min(1180px, calc(100% - 48px));
+            min-height: 72px;
+            margin: 0 auto;
+
+            display: flex;
+            align-items: center;
+        }
+
+        .challenge-back {
+            margin-left: auto;
+            color: #656b77;
+            font-size: 14px;
+        }
+
+        .challenge-page {
+            width: min(900px, calc(100% - 36px));
+            margin: 0 auto;
+            padding: 55px 0 90px;
+        }
+
+        .challenge-top {
+            margin-bottom: 28px;
+        }
+
+        .challenge-top-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            gap: 30px;
+
+            margin-bottom: 22px;
+        }
+
+        .challenge-top h1 {
+            margin: 3px 0 5px;
+
+            font-size: clamp(38px, 6vw, 62px);
+            line-height: 1.05;
+            letter-spacing: -2px;
+        }
+
+        .challenge-date {
+            margin: 0;
+
+            color: #7c828d;
+            font-size: 13px;
+        }
+
+        .question-position {
+            color: #666d79;
+            white-space: nowrap;
+        }
+
+        .question-position strong {
+            color: #17191f;
+            font-size: 27px;
+        }
+
+        .progress-track {
+            height: 7px;
+
+            overflow: hidden;
+
+            background: #e2e5eb;
+            border-radius: 999px;
+        }
+
+        .progress-bar {
+            width: 0;
+            height: 100%;
+
+            background: #4169e1;
+            border-radius: 999px;
+
+            transition: width 0.3s ease;
+        }
+
+        .question-card {
+            padding: 45px;
+
+            background: white;
+
+            border: 1px solid #e1e4e9;
+            border-radius: 24px;
+
+            box-shadow:
+                0 18px 55px
+                rgba(27, 31, 41, 0.06);
+        }
+
+        .question-type {
+            display: inline-block;
+
+            margin-bottom: 22px;
+            padding: 7px 11px;
+
+            background: #eef2ff;
+            color: #4161be;
+
+            border-radius: 999px;
+
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .question-prompt {
+            margin: 0 0 34px;
+
+            white-space: pre-line;
+
+            font-size: clamp(21px, 3vw, 28px);
+            line-height: 1.55;
+        }
+
+        .options-list {
+            display: grid;
+            gap: 12px;
+        }
+
+        .option-button {
+            width: 100%;
+
+            padding: 17px 19px;
+
+            display: flex;
+            gap: 14px;
+
+            border: 1px solid #dfe2e8;
+            border-radius: 14px;
+
+            background: #fafbfc;
+
+            text-align: left;
+        }
+
+        .option-button:hover:not(:disabled) {
+            border-color: #9faed9;
+            background: #f5f7ff;
+        }
+
+        .option-button.selected {
+            border-color: #4169e1;
+            background: #eef2ff;
+        }
+
+        .option-button.correct {
+            border-color: #2d9c67;
+            background: #edf9f2;
+        }
+
+        .option-button.wrong {
+            border-color: #d9534f;
+            background: #fff1f0;
+        }
+
+        .option-letter {
+            min-width: 29px;
+            height: 29px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: white;
+
+            border: 1px solid #d8dce4;
+            border-radius: 8px;
+
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .option-text {
+            flex: 1;
+            line-height: 1.65;
+        }
+
+        .open-answer {
+            width: 100%;
+            min-height: 160px;
+
+            padding: 18px;
+
+            resize: vertical;
+
+            border: 1px solid #dfe2e8;
+            border-radius: 14px;
+
+            background: #fafbfc;
+
+            font-family: inherit;
+            font-size: 15px;
+            line-height: 1.8;
+        }
+
+        .open-answer:focus {
+            outline: none;
+            border-color: #4169e1;
+            background: white;
+        }
+
+        .open-hint {
+            color: #858b96;
+            font-size: 12px;
+        }
+
+        .question-actions {
+            margin-top: 32px;
+
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+
+        .challenge-action-button {
+            padding: 12px 20px;
+
+            border: 0;
+            border-radius: 11px;
+
+            font-weight: 700;
+        }
+
+        .submit-answer {
+            background: #17191f;
+            color: white;
+        }
+
+        .next-question {
+            background: #4169e1;
+            color: white;
+        }
+
+        .challenge-action-button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .feedback-box {
+            display: none;
+
+            margin-top: 30px;
+            padding-top: 28px;
+
+            border-top: 1px solid #e6e8ed;
+        }
+
+        .feedback-box.visible {
+            display: block;
+        }
+
+        .feedback-status {
+            margin-bottom: 15px;
+
+            font-size: 22px;
+            font-weight: 800;
+        }
+
+        .correct-text {
+            color: #218555;
+        }
+
+        .wrong-text {
+            color: #c3423f;
+        }
+
+        .open-text {
+            color: #4169e1;
+        }
+
+        .correct-answer-box {
+            display: none;
+
+            margin-bottom: 18px;
+            padding: 14px 16px;
+
+            background: #f5f6f8;
+
+            border-radius: 11px;
+        }
+
+        .correct-answer-box.visible {
+            display: block;
+        }
+
+        .main-explanation {
+            white-space: pre-line;
+
+            color: #4d535e;
+            line-height: 1.8;
+        }
+
+        .option-analysis {
+            display: none;
+
+            margin-top: 25px;
+        }
+
+        .analysis-item {
+            margin-bottom: 8px;
+            padding: 13px 15px;
+
+            background: #f8f9fb;
+
+            border-radius: 10px;
+
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .analysis-item strong {
+            display: block;
+        }
+
+        .sources-box {
+            display: none;
+
+            margin-top: 25px;
+            padding: 20px;
+
+            background: #f7f8fb;
+
+            border-radius: 13px;
+        }
+
+        .sources-box.visible {
+            display: block;
+        }
+
+        .source-link {
+            display: block;
+
+            margin-top: 8px;
+
+            color: #355cc7;
+            font-size: 13px;
+        }
+
+
+        /* =====================================================
+           完成结果
+        ===================================================== */
+
+        .result-card {
+            display: none;
+
+            padding: 50px;
+
+            background: white;
+
+            border: 1px solid #e1e4e9;
+            border-radius: 24px;
+
+            box-shadow:
+                0 18px 55px
+                rgba(27, 31, 41, 0.06);
+
+            text-align: center;
+        }
+
+        .result-card.visible {
+            display: block;
+        }
+
+        .result-small {
+            color: #727986;
+
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+        }
+
+        .result-card h2 {
+            margin: 5px 0;
+
+            font-size: 46px;
+            letter-spacing: -2px;
+        }
+
+        .score-display {
+            margin: 32px 0;
+
+            font-size: 78px;
+            font-weight: 800;
+            line-height: 1;
+        }
+
+        .score-display .score-small {
+            color: #9297a1;
+
+            font-size: 25px;
+        }
+
+        .result-description {
+            max-width: 580px;
+
+            margin: 0 auto 28px;
+
+            color: #666d79;
+            line-height: 1.8;
+        }
+
+        .result-stats {
+            max-width: 560px;
+
+            margin: 0 auto 35px;
+
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .result-stat {
+            padding: 18px 10px;
+
+            background: #f7f8fa;
+
+            border-radius: 13px;
+        }
+
+        .result-stat strong {
+            display: block;
+
+            font-size: 23px;
+        }
+
+        .result-stat span {
+            color: #7e8490;
+            font-size: 11px;
+        }
+
+
+        /* =====================================================
+           海报区域
+        ===================================================== */
+
+        .poster-section {
+            margin-top: 55px;
+            padding-top: 45px;
+
+            border-top: 1px solid #e4e7ec;
+        }
+
+        .poster-section-label {
+            margin: 0 0 6px;
+
+            color: #737986;
+
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+        }
+
+        .poster-section h3 {
+            margin: 0 0 8px;
+
+            font-size: 28px;
+        }
+
+        .poster-section-description {
+            margin: 0 auto 28px;
+
+            color: #747a85;
+            font-size: 14px;
+        }
+
+        .poster-preview {
+            width: min(100%, 430px);
+
+            margin: 0 auto;
+
+            overflow: hidden;
+
+            border-radius: 20px;
+
+            box-shadow:
+                0 20px 50px
+                rgba(25, 30, 45, 0.15);
+        }
+
+        #posterCanvas {
+            display: block;
+
+            width: 100%;
+            height: auto;
+
+            background: #eef2ff;
+        }
+
+        .poster-actions {
+            margin-top: 25px;
+
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .poster-button {
+            padding: 12px 20px;
+
+            border: 0;
+            border-radius: 11px;
+
+            background: #4169e1;
+            color: white;
+
+            font-family: inherit;
+            font-weight: 700;
+
+            cursor: pointer;
+        }
+
+        .poster-button.secondary {
+            background: #eef0f4;
+            color: #333842;
+        }
+
+        .result-actions {
+            margin-top: 35px;
+
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .result-link {
+            padding: 12px 18px;
+
+            border: 0;
+            border-radius: 11px;
+
+            background: #17191f;
+            color: white;
+
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 700;
+
+            cursor: pointer;
+        }
+
+        .result-link.secondary {
+            background: #eef0f4;
+            color: #333842;
+        }
+
+
+        @media (max-width: 650px) {
+
+            .challenge-page {
+                width: calc(100% - 24px);
+                padding-top: 30px;
+            }
+
+            .challenge-top-row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .question-card {
+                padding: 28px 20px;
+            }
+
+            .result-card {
+                padding: 35px 20px;
+            }
+
+            .result-stats {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+<header class="challenge-page-header">
+
+    <div class="challenge-page-header-inner">
+
+        <a
+            class="logo"
+            href="{{ url_for('home') }}"
+        >
+            Zoom In
+        </a>
+
+        <a
+            class="challenge-back"
+            href="{{ url_for('home') }}"
+        >
+            ← 返回首页
+        </a>
+
+    </div>
+
+</header>
+
+
+
+<main class="challenge-page">
+
+
+    <!-- =====================================================
+         题目顶部
+    ====================================================== -->
+
+    <section
+        class="challenge-top"
+        id="challengeTop"
+    >
+
+        <div class="challenge-top-row">
+
+            <div>
+
+                <p class="eyebrow">
+                    TODAY'S CHALLENGE
+                </p>
+
+                <h1>
+                    {{ daily_challenge.topic }}
+                </h1>
+
+                <p class="challenge-date">
+                    {{ daily_challenge.date }}
+                    ·
+                    {{ daily_challenge.question_count }}
+                    道题
+                </p>
+
+            </div>
+
+
+            <div class="question-position">
+
+                <strong id="currentQuestionNumber">
+                    1
+                </strong>
+
+                /
+
+                <span>
+                    {{ daily_challenge.question_count }}
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="progress-track">
+
+            <div
+                class="progress-bar"
+                id="progressBar"
+            ></div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         题目
+    ====================================================== -->
+
+    <section
+        class="question-card"
+        id="questionCard"
+    >
+
+        <span
+            class="question-type"
+            id="questionType"
+        ></span>
+
+
+        <h2
+            class="question-prompt"
+            id="questionPrompt"
+        ></h2>
+
+
+        <div
+            class="options-list"
+            id="optionsList"
+        ></div>
+
+
+        <div
+            id="openAnswerArea"
+            style="display: none;"
+        >
+
+            <textarea
+                class="open-answer"
+                id="openAnswer"
+                placeholder="写下你的回答..."
+                maxlength="500"
+            ></textarea>
+
+            <p class="open-hint">
+                开放题没有唯一标准答案。
+                重点是说明你的信息选择与理由。
+            </p>
+
+        </div>
+
+
+        <div class="question-actions">
+
+            <button
+                class="challenge-action-button submit-answer"
+                id="submitButton"
+                disabled
+            >
+                提交答案
+            </button>
+
+            <button
+                class="challenge-action-button next-question"
+                id="nextButton"
+                style="display: none;"
+            >
+                下一题 →
+            </button>
+
+        </div>
+
+
+
+        <!-- 解析 -->
+
+        <div
+            class="feedback-box"
+            id="feedbackBox"
+        >
+
+            <div
+                class="feedback-status"
+                id="feedbackStatus"
+            ></div>
+
+
+            <div
+                class="correct-answer-box"
+                id="correctAnswerBox"
+            >
+
+                <strong>
+                    正确答案
+                </strong>
+
+                <div id="correctAnswerValue"></div>
+
+            </div>
+
+
+            <p
+                class="main-explanation"
+                id="mainExplanation"
+            ></p>
+
+
+            <div
+                class="option-analysis"
+                id="optionAnalysis"
+            >
+
+                <h4>
+                    为什么？
+                </h4>
+
+                <div id="optionAnalysisList"></div>
+
+            </div>
+
+
+            <div
+                class="sources-box"
+                id="sourcesBox"
+            >
+
+                <strong>
+                    核验原始资料
+                </strong>
+
+                <div id="sourceLinks"></div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         结果 + 海报
+    ====================================================== -->
+
+    <section
+        class="result-card"
+        id="resultCard"
+    >
+
+        <p class="result-small">
+            CHALLENGE COMPLETE
+        </p>
+
+        <h2>
+            今日挑战完成
+        </h2>
+
+
+        <div class="score-display">
+
+            <span id="resultScore">
+                0
+            </span>
+
+            <span class="score-small">
+                /
+                <span id="resultTotal">
+                    0
+                </span>
+            </span>
+
+        </div>
+
+
+        <p
+            class="result-description"
+            id="resultDescription"
+        ></p>
+
+
+        <div class="result-stats">
+
+            <div class="result-stat">
+
+                <strong id="correctStat">
+                    0
+                </strong>
+
+                <span>
+                    客观题答对
+                </span>
+
+            </div>
+
+
+            <div class="result-stat">
+
+                <strong id="wrongStat">
+                    0
+                </strong>
+
+                <span>
+                    客观题答错
+                </span>
+
+            </div>
+
+
+            <div class="result-stat">
+
+                <strong id="openStat">
+                    0
+                </strong>
+
+                <span>
+                    开放题完成
+                </span>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =========================
+             分享海报
+        ========================== -->
+
+        <div class="poster-section">
+
+            <p class="poster-section-label">
+                SHARE YOUR PROGRESS
+            </p>
+
+            <h3>
+                今日学习海报
+            </h3>
+
+            <p class="poster-section-description">
+                保存你的挑战结果，
+                分享今天看到的不同叙事。
+            </p>
+
+
+            <div class="poster-preview">
+
+                <canvas
+                    id="posterCanvas"
+                    width="1080"
+                    height="1440"
+                ></canvas>
+
+            </div>
+
+
+            <div class="poster-actions">
+
+                <button
+                    class="poster-button"
+                    id="downloadPosterButton"
+                >
+                    下载海报 PNG
+                </button>
+
+                <button
+                    class="poster-button secondary"
+                    id="regeneratePosterButton"
+                >
+                    重新生成
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="result-actions">
+
+            <button
+                class="result-link"
+                id="restartButton"
+            >
+                再做一次
+            </button>
+
+            <a
+                class="result-link secondary"
+                href="{{ url_for('yuanmingyuan') }}"
+            >
+                查看圆明园资料
+            </a>
+
+            <a
+                class="result-link secondary"
+                href="{{ url_for('home') }}"
+            >
+                返回首页
+            </a>
+
+        </div>
+
+    </section>
+
+
+</main>
+
+
+
+<script>
+
+    /* =========================================================
+       Flask 数据
+    ========================================================= */
+
+    const challengeData =
+        {{ daily_challenge | tojson }};
+
+    const questions =
+        challengeData.questions || [];
+
+
+    let currentIndex = 0;
+
+    let selectedAnswer = null;
+
+    let hasSubmitted = false;
+
+    let correctCount = 0;
+
+    let wrongCount = 0;
+
+    let openCompletedCount = 0;
+
+
+    const answers = {};
+
+
+    /* =========================================================
+       获取元素
+    ========================================================= */
+
+    const questionCard =
+        document.getElementById(
+            "questionCard"
+        );
+
+    const challengeTop =
+        document.getElementById(
+            "challengeTop"
+        );
+
+    const resultCard =
+        document.getElementById(
+            "resultCard"
+        );
+
+    const questionType =
+        document.getElementById(
+            "questionType"
+        );
+
+    const questionPrompt =
+        document.getElementById(
+            "questionPrompt"
+        );
+
+    const optionsList =
+        document.getElementById(
+            "optionsList"
+        );
+
+    const openAnswerArea =
+        document.getElementById(
+            "openAnswerArea"
+        );
+
+    const openAnswer =
+        document.getElementById(
+            "openAnswer"
+        );
+
+    const submitButton =
+        document.getElementById(
+            "submitButton"
+        );
+
+    const nextButton =
+        document.getElementById(
+            "nextButton"
+        );
+
+    const feedbackBox =
+        document.getElementById(
+            "feedbackBox"
+        );
+
+    const feedbackStatus =
+        document.getElementById(
+            "feedbackStatus"
+        );
+
+    const correctAnswerBox =
+        document.getElementById(
+            "correctAnswerBox"
+        );
+
+    const correctAnswerValue =
+        document.getElementById(
+            "correctAnswerValue"
+        );
+
+    const mainExplanation =
+        document.getElementById(
+            "mainExplanation"
+        );
+
+    const optionAnalysis =
+        document.getElementById(
+            "optionAnalysis"
+        );
+
+    const optionAnalysisList =
+        document.getElementById(
+            "optionAnalysisList"
+        );
+
+    const sourcesBox =
+        document.getElementById(
+            "sourcesBox"
+        );
+
+    const sourceLinks =
+        document.getElementById(
+            "sourceLinks"
+        );
+
+    const currentQuestionNumber =
+        document.getElementById(
+            "currentQuestionNumber"
+        );
+
+    const progressBar =
+        document.getElementById(
+            "progressBar"
+        );
+
+
+    /* =========================================================
+       工具
+    ========================================================= */
+
+    function optionLetter(index) {
+
+        return String.fromCharCode(
+            65 + index
+        );
+
+    }
+
+
+    function isOpenQuestion(question) {
+
+        return (
+            !question.options
+            ||
+            question.options.length === 0
+            ||
+            question.answer === null
+        );
+
+    }
+
+
+    function resetQuestionState() {
+
+        selectedAnswer = null;
+
+        hasSubmitted = false;
+
+
+        optionsList.innerHTML = "";
+
+        optionAnalysisList.innerHTML = "";
+
+        sourceLinks.innerHTML = "";
+
+
+        feedbackBox.classList.remove(
+            "visible"
+        );
+
+        correctAnswerBox.classList.remove(
+            "visible"
+        );
+
+        sourcesBox.classList.remove(
+            "visible"
+        );
+
+
+        optionAnalysis.style.display =
+            "none";
+
+
+        submitButton.style.display =
+            "inline-block";
+
+        submitButton.disabled =
+            true;
+
+
+        nextButton.style.display =
+            "none";
+
+
+        /*
+         * 每一道开放题出现时
+         * 都重新启用输入框
+         */
+
+        openAnswer.disabled =
+            false;
+
+        openAnswer.value =
+            "";
+
+    }
+
+
+    /* =========================================================
+       显示题目
+    ========================================================= */
+
+    function renderQuestion() {
+
+        if (!questions.length) {
+
+            questionCard.innerHTML =
+                "今天暂无题目";
+
+            return;
+
+        }
+
+
+        resetQuestionState();
+
+
+        const question =
+            questions[currentIndex];
+
+
+        currentQuestionNumber.textContent =
+            currentIndex + 1;
+
+
+        progressBar.style.width =
+            (
+                (
+                    currentIndex + 1
+                )
+                /
+                questions.length
+                *
+                100
+            )
+            +
+            "%";
+
+
+        questionType.textContent =
+            question.type || "挑战";
+
+
+        questionPrompt.textContent =
+            question.prompt || "";
+
+
+        if (
+            isOpenQuestion(
+                question
+            )
+        ) {
+
+            optionsList.style.display =
+                "none";
+
+
+            openAnswerArea.style.display =
+                "block";
+
+
+            submitButton.textContent =
+                "提交回答";
+
+
+            openAnswer.disabled =
+                false;
+
+
+            openAnswer.oninput =
+                function () {
+
+                    submitButton.disabled =
+                        openAnswer.value
+                            .trim()
+                            .length === 0;
+
+                };
+
+
+            return;
+
+        }
+
+
+        optionsList.style.display =
+            "grid";
+
+
+        openAnswerArea.style.display =
+            "none";
+
+
+        submitButton.textContent =
+            "提交答案";
+
+
+        question.options.forEach(
+            function (
+                option,
+                index
+            ) {
+
+                const button =
+                    document.createElement(
+                        "button"
+                    );
+
+
+                button.className =
+                    "option-button";
+
+
+                const letter =
+                    document.createElement(
+                        "span"
+                    );
+
+
+                letter.className =
+                    "option-letter";
+
+
+                letter.textContent =
+                    optionLetter(index);
+
+
+                const text =
+                    document.createElement(
+                        "span"
+                    );
+
+
+                text.className =
+                    "option-text";
+
+
+                text.textContent =
+                    option;
+
+
+                button.appendChild(
+                    letter
+                );
+
+
+                button.appendChild(
+                    text
+                );
+
+
+                button.addEventListener(
+                    "click",
+                    function () {
+
+                        if (hasSubmitted) {
+                            return;
+                        }
+
+
+                        selectedAnswer =
+                            option;
+
+
+                        document
+                            .querySelectorAll(
+                                ".option-button"
+                            )
+                            .forEach(
+                                function (
+                                    item
+                                ) {
+
+                                    item.classList.remove(
+                                        "selected"
+                                    );
+
+                                }
+                            );
+
+
+                        button.classList.add(
+                            "selected"
+                        );
+
+
+                        submitButton.disabled =
+                            false;
+
+                    }
+                );
+
+
+                optionsList.appendChild(
+                    button
+                );
+
+            }
+        );
+
+    }
+
+
+    /* =========================================================
+       提交
+    ========================================================= */
+
+    function submitAnswer() {
+
+        if (hasSubmitted) {
+            return;
+        }
+
+
+        const question =
+            questions[currentIndex];
+
+
+        const openQuestion =
+            isOpenQuestion(
+                question
+            );
+
+
+        if (openQuestion) {
+
+            const text =
+                openAnswer.value.trim();
+
+
+            if (!text) {
+                return;
+            }
+
+
+            hasSubmitted =
+                true;
+
+
+            openCompletedCount += 1;
+
+
+            answers[
+                question.id
+            ] = {
+                type: "open",
+                value: text
+            };
+
+
+            feedbackStatus.textContent =
+                "✓ 已记录你的回答";
+
+
+            feedbackStatus.className =
+                "feedback-status open-text";
+
+
+            mainExplanation.textContent =
+                question.explanation
+                ||
+                "开放题没有唯一标准答案。";
+
+
+            openAnswer.disabled =
+                true;
+
+        }
+
+        else {
+
+            if (
+                selectedAnswer === null
+            ) {
+
+                return;
+
+            }
+
+
+            hasSubmitted =
+                true;
+
+
+            const correct =
+                selectedAnswer
+                ===
+                question.answer;
+
+
+            if (correct) {
+
+                correctCount += 1;
+
+
+                feedbackStatus.textContent =
+                    "✓ 回答正确";
+
+
+                feedbackStatus.className =
+                    "feedback-status correct-text";
+
+            }
+
+            else {
+
+                wrongCount += 1;
+
+
+                feedbackStatus.textContent =
+                    "✕ 回答错误";
+
+
+                feedbackStatus.className =
+                    "feedback-status wrong-text";
+
+
+                correctAnswerValue.textContent =
+                    question.answer;
+
+
+                correctAnswerBox.classList.add(
+                    "visible"
+                );
+
+            }
+
+
+            mainExplanation.textContent =
+                question.explanation
+                ||
+                "";
+
+
+            document
+                .querySelectorAll(
+                    ".option-button"
+                )
+                .forEach(
+                    function (
+                        button,
+                        index
+                    ) {
+
+                        const option =
+                            question.options[
+                                index
+                            ];
+
+
+                        button.disabled =
+                            true;
+
+
+                        button.classList.remove(
+                            "selected"
+                        );
+
+
+                        if (
+                            option
+                            ===
+                            question.answer
+                        ) {
+
+                            button.classList.add(
+                                "correct"
+                            );
+
+                        }
+
+                        else if (
+                            option
+                            ===
+                            selectedAnswer
+                        ) {
+
+                            button.classList.add(
+                                "wrong"
+                            );
+
+                        }
+
+                    }
+                );
+
+
+            renderOptionExplanations(
+                question
+            );
+
+        }
+
+
+        renderSources(
+            question
+        );
+
+
+        feedbackBox.classList.add(
+            "visible"
+        );
+
+
+        submitButton.style.display =
+            "none";
+
+
+        nextButton.style.display =
+            "inline-block";
+
+
+        if (
+            currentIndex
+            ===
+            questions.length - 1
+        ) {
+
+            nextButton.textContent =
+                "查看结果 →";
+
+        }
+
+        else {
+
+            nextButton.textContent =
+                "下一题 →";
+
+        }
+
+    }
+
+
+    /* =========================================================
+       每个选项解析
+    ========================================================= */
+
+    function renderOptionExplanations(
+        question
+    ) {
+
+        const explanations =
+            question.option_explanations
+            ||
+            {};
+
+
+        const keys =
+            Object.keys(
+                explanations
+            );
+
+
+        if (!keys.length) {
+            return;
+        }
+
+
+        optionAnalysis.style.display =
+            "block";
+
+
+        keys.forEach(
+            function (
+                option
+            ) {
+
+                const item =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                item.className =
+                    "analysis-item";
+
+
+                const title =
+                    document.createElement(
+                        "strong"
+                    );
+
+
+                title.textContent =
+                    (
+                        option
+                        ===
+                        question.answer
+                    )
+                    ?
+                    "✓ " + option
+                    :
+                    option;
+
+
+                const text =
+                    document.createElement(
+                        "span"
+                    );
+
+
+                text.textContent =
+                    explanations[
+                        option
+                    ];
+
+
+                item.appendChild(
+                    title
+                );
+
+
+                item.appendChild(
+                    text
+                );
+
+
+                optionAnalysisList
+                    .appendChild(
+                        item
+                    );
+
+            }
+        );
+
+    }
+
+
+    /* =========================================================
+       来源
+    ========================================================= */
+
+    function renderSources(
+        question
+    ) {
+
+        const links =
+            question.source_links
+            ||
+            [];
+
+
+        const articles =
+            question.source_articles
+            ||
+            [];
+
+
+        if (!links.length) {
+            return;
+        }
+
+
+        links.forEach(
+            function (
+                link,
+                index
+            ) {
+
+                if (!link) {
+                    return;
+                }
+
+
+                const anchor =
+                    document.createElement(
+                        "a"
+                    );
+
+
+                anchor.className =
+                    "source-link";
+
+
+                anchor.href =
+                    link;
+
+
+                anchor.target =
+                    "_blank";
+
+
+                anchor.rel =
+                    "noopener noreferrer";
+
+
+                anchor.textContent =
+                    (
+                        articles[index]
+                        ||
+                        "查看原始资料"
+                    )
+                    +
+                    " ↗";
+
+
+                sourceLinks.appendChild(
+                    anchor
+                );
+
+            }
+        );
+
+
+        if (
+            sourceLinks.children.length
+            >
+            0
+        ) {
+
+            sourcesBox.classList.add(
+                "visible"
+            );
+
+        }
+
+    }
+
+
+    /* =========================================================
+       下一题
+    ========================================================= */
+
+    function nextQuestion() {
+
+        if (
+            currentIndex
+            <
+            questions.length - 1
+        ) {
+
+            currentIndex += 1;
+
+
+            renderQuestion();
+
+
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+
+        }
+
+        else {
+
+            showResults();
+
+        }
+
+    }
+
+
+    /* =========================================================
+       完成页
+    ========================================================= */
+
+    function showResults() {
+
+        questionCard.style.display =
+            "none";
+
+
+        challengeTop.style.display =
+            "none";
+
+
+        resultCard.classList.add(
+            "visible"
+        );
+
+
+        const objectiveTotal =
+            correctCount
+            +
+            wrongCount;
+
+
+        document.getElementById(
+            "resultScore"
+        ).textContent =
+            correctCount;
+
+
+        document.getElementById(
+            "resultTotal"
+        ).textContent =
+            objectiveTotal;
+
+
+        document.getElementById(
+            "correctStat"
+        ).textContent =
+            correctCount;
+
+
+        document.getElementById(
+            "wrongStat"
+        ).textContent =
+            wrongCount;
+
+
+        document.getElementById(
+            "openStat"
+        ).textContent =
+            openCompletedCount;
+
+
+        let message = "";
+
+
+        if (
+            objectiveTotal === 0
+        ) {
+
+            message =
+                "你已经完成了今天的开放思考挑战。";
+
+        }
+
+        else {
+
+            const rate =
+                correctCount
+                /
+                objectiveTotal;
+
+
+            if (
+                rate >= 0.85
+            ) {
+
+                message =
+                    "你已经能较好地区分来源、证据与叙事重点。";
+
+            }
+
+            else if (
+                rate >= 0.6
+            ) {
+
+                message =
+                    "你已经完成了基本比较，可以继续回看原始来源。";
+
+            }
+
+            else {
+
+                message =
+                    "比分不是重点。回到原始资料重新比较来源与证据，会更有价值。";
+
+            }
+
+        }
+
+
+        document.getElementById(
+            "resultDescription"
+        ).textContent =
+            message;
+
+
+        /*
+         * 完成后自动生成海报
+         */
+
+        generatePoster();
+
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
+    }
+
+
+    /* =========================================================
+       海报
+    ========================================================= */
+
+    function generatePoster() {
+
+        const canvas =
+            document.getElementById(
+                "posterCanvas"
+            );
+
+
+        const ctx =
+            canvas.getContext(
+                "2d"
+            );
+
+
+        const width =
+            canvas.width;
+
+
+        const height =
+            canvas.height;
+
+
+        /*
+         * 背景
+         */
+
+        ctx.fillStyle =
+            "#EEF2FF";
+
+
+        ctx.fillRect(
+            0,
+            0,
+            width,
+            height
+        );
+
+
+        /*
+         * 顶部深色区域
+         */
+
+        ctx.fillStyle =
+            "#17191F";
+
+
+        ctx.fillRect(
+            0,
+            0,
+            width,
+            360
+        );
+
+
+        /*
+         * Logo
+         */
+
+        ctx.fillStyle =
+            "#FFFFFF";
+
+
+        ctx.font =
+            'bold 48px "Microsoft YaHei", "PingFang SC", sans-serif';
+
+
+        ctx.fillText(
+            "Zoom In",
+            80,
+            100
+        );
+
+
+        ctx.fillStyle =
+            "#AEB4C2";
+
+
+        ctx.font =
+            '22px "Microsoft YaHei", "PingFang SC", sans-serif';
+
+
+        ctx.fillText(
+            "MEDIA & INFORMATION LITERACY",
+            80,
+            155
+        );
+
+
+        /*
+         * Challenge complete
+         */
+
+        ctx.fillStyle =
+            "#FFFFFF";
+
+
+        ctx.font =
+            'bold 68px "Microsoft YaHei", "PingFang SC", sans-serif';
+
+
+        ctx.fillText(
+            "今日挑战完成",
+            80,
+            270
+        );
+
+
+        /*
+         * Topic
+         */
+
+        ctx.fillStyle =
+            "#353A45";
+
+
+        ctx.font =
+            '24px "Microsoft YaHei", "PingFang SC", sans-serif';
+
+
+        ctx.fillText(
+            "TODAY'S TOPIC",
+            80,
+            455
+        );
+
+
+        ctx.fillStyle =
+            "#17191F";
+
+
+        ctx.font =
+            'bold 86px "Microsoft YaHei", "PingFang SC", sans-serif';
+
+
+        ctx.fillText(
+            challengeData.topic
+            ||
+            "圆明园",
+            80,
+            560
+        );
+
+
+        /*
+         * 日期
+         */
+
+        ctx.fillStyle =
+            "#737985";
+
+
+        ctx.font =
+            '26px "Microsoft YaHei", "PingFang SC", sans-serif';
+
+
+        ctx.fillText(
+            challengeData.date
+            ||
+            "",
+            80,
+            615
+        );
+
+
+        /*
+         * 分数模块
+         */
+
+        ctx.fillStyle =
+            "#FFFFFF";
+
+
+        roundRect(
+            ctx,
+            80,
+            690,
+            920,
+            300,
+            34
+        );
+
+
+        ctx.fill();
+
+
+        ctx.fillStyle =
+            "#737985";
+
+
+        ctx.font =
+            '24px "Microsoft YaHei", "PingFang SC", sans-serif';
+
+
+        ctx.fillText(
+            "OBJECTIVE SCORE",
+            130,
+            770
+        );
+
+
+        const total =
+            correctCount
+            +
+            wrongCount;
+
+
+        ctx.fillStyle =
+            "#4169E1";
+
+
+        ctx.font =
+            'bold 115px "Microsoft YaHei", "PingFang SC", sans-serif';
+
+
+        ctx.fillText(
+            String(
+                correctCount
+            ),
+            130,
+            910
+        );
+
+
+        const scoreWidth =
+            ctx.measureText(
+                String(
+                    correctCount
+                )
+            ).width;
+
+
+        ctx.fillStyle =
+            "#969CA7";
+
+
+        ctx.font =
+            'bold 50px "Microsoft YaHei", "PingFang SC", sans-serif';
+
+
+        ctx.fillText(
+            "/ "
+            +
+            total,
+            150
+            +
+            scoreWidth,
+            905
+        );
+
+
+        /*
+         * 开放题
+         */
+
+        ctx.fillStyle =
+            "#353A45";
+
+
+        ctx.font =
+            'bold 30px "Microsoft YaHei", "PingFang SC", sans-serif';
+
+
+        ctx.fillText(
+            "开放思考",
+            650,
+            800
+        );
+
+
+        ctx.fillStyle =
+            "#17191F";
+
+
+        ctx.font =
+            'bold 64px "Microsoft YaHei", "PingFang SC", sans-serif';
+
+
+        ctx.fillText(
+            String(
+                openCompletedCount
+            ),
+            650,
+            885
+        );
+
+
+        ctx.fillStyle =
+            "#858B96";
+
+
+        ctx.font =
+            '24px "Microsoft YaHei", "PingFang SC", sans-serif';
+
+
+        ctx.fillText(
+            "题已完成",
+            710,
+            885
+        );
+
+
+        /*
+         * 今日技能
+         */
+
+        ctx.fillStyle =
+            "#555C68";
+
+
+        ctx.font =
+            '22px "Microsoft YaHei", "PingFang SC", sans-serif';
+
+
+        ctx.fillText(
+            "TODAY I PRACTICED",
+            80,
+            1085
+        );
+
+
+        drawTag(
+            ctx,
+            "看来源",
+            80,
+            1130
+        );
+
+
+        drawTag(
+            ctx,
+            "找证据",
+            280,
+            1130
+        );
+
+
+        drawTag(
+            ctx,
+            "比较叙事",
+            480,
+            1130
+        );
+
+
+        /*
+         * slogan
+         */
+
+        ctx.fillStyle =
+            "#17191F";
+
+
+        ctx.font =
+            'bold 34px "Microsoft YaHei", "PingFang SC", sans-serif';
+
+
+        ctx.fillText(
+            "同一个故事，为什么会有不同讲法？",
+            80,
+            1305
+        );
+
+
+        ctx.fillStyle =
+            "#717784";
+
+
+        ctx.font =
+            '23px "Microsoft YaHei", "PingFang SC", sans-serif';
+
+
+        ctx.fillText(
+            "Compare the narrative. Check the source.",
+            80,
+            1360
+        );
+
+
+        ctx.textAlign =
+            "right";
+
+
+        ctx.fillStyle =
+            "#4169E1";
+
+
+        ctx.font =
+            'bold 28px "Microsoft YaHei", "PingFang SC", sans-serif';
+
+
+        ctx.fillText(
+            "ZOOM IN →",
+            1000,
+            1360
+        );
+
+
+        ctx.textAlign =
+            "left";
+
+    }
+
+
+    /* =========================================================
+       Canvas 圆角
+    ========================================================= */
+
+    function roundRect(
+        ctx,
+        x,
+        y,
+        width,
+        height,
+        radius
+    ) {
+
+        ctx.beginPath();
+
+        ctx.roundRect(
+            x,
+            y,
+            width,
+            height,
+            radius
+        );
+
+    }
+
+
+    /* =========================================================
+       海报标签
+    ========================================================= */
+
+    function drawTag(
+        ctx,
+        text,
+        x,
+        y
+    ) {
+
+        ctx.font =
+            'bold 28px "Microsoft YaHei", "PingFang SC", sans-serif';
+
+
+        const paddingX =
+            34;
+
+
+        const width =
+            ctx.measureText(
+                text
+            ).width
+            +
+            paddingX
+            *
+            2;
+
+
+        ctx.fillStyle =
+            "#FFFFFF";
+
+
+        roundRect(
+            ctx,
+            x,
+            y,
+            width,
+            74,
+            37
+        );
+
+
+        ctx.fill();
+
+
+        ctx.fillStyle =
+            "#333842";
+
+
+        ctx.fillText(
+            text,
+            x
+            +
+            paddingX,
+            y
+            +
+            48
+        );
+
+    }
+
+
+    /* =========================================================
+       下载 PNG
+    ========================================================= */
+
+    function downloadPoster() {
+
+        const canvas =
+            document.getElementById(
+                "posterCanvas"
+            );
+
+
+        const link =
+            document.createElement(
+                "a"
+            );
+
+
+        link.download =
+            "ZoomIn_"
+            +
+            (
+                challengeData.topic
+                ||
+                "Challenge"
+            )
+            +
+            "_"
+            +
+            (
+                challengeData.date
+                ||
+                "Today"
+            )
+            +
+            ".png";
+
+
+        link.href =
+            canvas.toDataURL(
+                "image/png"
+            );
+
+
+        link.click();
+
+    }
+
+
+    /* =========================================================
+       重新挑战
+    ========================================================= */
+
+    function restartChallenge() {
+
+        currentIndex = 0;
+
+        selectedAnswer = null;
+
+        hasSubmitted = false;
+
+        correctCount = 0;
+
+        wrongCount = 0;
+
+        openCompletedCount = 0;
+
+
+        Object.keys(
+            answers
+        ).forEach(
+            function (
+                key
+            ) {
+
+                delete answers[
+                    key
+                ];
+
+            }
+        );
+
+
+        openAnswer.disabled =
+            false;
+
+
+        openAnswer.value =
+            "";
+
+
+        resultCard.classList.remove(
+            "visible"
+        );
+
+
+        questionCard.style.display =
+            "block";
+
+
+        challengeTop.style.display =
+            "block";
+
+
+        renderQuestion();
+
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
+    }
+
+
+    /* =========================================================
+       事件
+    ========================================================= */
+
+    submitButton.addEventListener(
+        "click",
+        submitAnswer
+    );
+
+
+    nextButton.addEventListener(
+        "click",
+        nextQuestion
+    );
+
+
+    document.getElementById(
+        "restartButton"
+    ).addEventListener(
+        "click",
+        restartChallenge
+    );
+
+
+    document.getElementById(
+        "downloadPosterButton"
+    ).addEventListener(
+        "click",
+        downloadPoster
+    );
+
+
+    document.getElementById(
+        "regeneratePosterButton"
+    ).addEventListener(
+        "click",
+        generatePoster
+    );
+
+
+    /* =========================================================
+       开始
+    ========================================================= */
+
+    renderQuestion();
+
+</script>
+
+
+</body>
+
+</html>

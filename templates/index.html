@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Zoom In</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+    <style>
+
+        /* =====================================================
+           新增首页区域
+        ===================================================== */
+
+        .home-extra-section {
+            padding: 110px 0;
+
+            background: white;
+        }
+
+
+        .home-extra-section.alt {
+            background: #f7f8fb;
+        }
+
+
+        .home-extra-inner {
+            width: min(1180px, calc(100% - 48px));
+
+            margin: 0 auto;
+        }
+
+
+        .extra-heading {
+            margin-bottom: 45px;
+
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 40px;
+        }
+
+
+        .extra-heading h2 {
+            margin: 0;
+
+            font-size: clamp(36px, 5vw, 58px);
+
+            line-height: 1.07;
+
+            letter-spacing: -2px;
+        }
+
+
+        .extra-heading p:last-child {
+            max-width: 440px;
+
+            color: #777e89;
+
+            line-height: 1.75;
+
+            font-size: 13px;
+        }
+
+
+        /* =====================================================
+           学习工具
+        ===================================================== */
+
+        .learning-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 14px;
+        }
+
+
+        .learning-card {
+            min-height: 270px;
+
+            padding: 28px;
+
+            display: flex;
+            flex-direction: column;
+
+            background: #fafbfc;
+
+            border: 1px solid #e0e3e9;
+            border-radius: 19px;
+        }
+
+
+        .learning-card-number {
+            color: #969ca7;
+
+            font-size: 11px;
+        }
+
+
+        .learning-card h3 {
+            margin: auto 0 10px;
+
+            font-size: 24px;
+        }
+
+
+        .learning-card p {
+            margin: 0;
+
+            color: #777e89;
+
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+
+        /* =====================================================
+           青年投稿
+        ===================================================== */
+
+        .submission-list {
+            border-top: 1px solid #e0e3e9;
+        }
+
+
+        .submission-row {
+            min-height: 130px;
+
+            padding: 24px 0;
+
+            display: grid;
+
+            grid-template-columns:
+                80px
+                minmax(0, 1fr)
+                180px;
+
+            gap: 25px;
+
+            align-items: center;
+
+            border-bottom: 1px solid #e0e3e9;
+        }
+
+
+        .submission-number {
+            color: #999faa;
+
+            font-size: 11px;
+        }
+
+
+        .submission-row h3 {
+            margin: 0 0 6px;
+
+            font-size: 20px;
+        }
+
+
+        .submission-row p {
+            margin: 0;
+
+            color: #777e89;
+
+            font-size: 13px;
+        }
+
+
+        .submission-status {
+            justify-self: end;
+
+            color: #777e89;
+
+            font-size: 12px;
+        }
+
+
+        @media (max-width: 800px) {
+
+            .extra-heading {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+
+            .learning-grid {
+                grid-template-columns: 1fr;
+            }
+
+
+            .submission-row {
+                grid-template-columns:
+                    50px
+                    1fr;
+            }
+
+
+            .submission-status {
+                grid-column: 2;
+
+                justify-self: start;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     导航
+========================================================= -->
+
+<header class="site-header">
+
+    <div class="header-inner">
+
+
+        <a
+            class="logo"
+            href="{{ url_for('home') }}"
+        >
+            Zoom In
+        </a>
+
+
+        <nav class="main-nav">
+
+            <a href="#challenge">
+                今日挑战
+            </a>
+
+            <a href="#explore">
+                探索
+            </a>
+
+            <a href="#learning">
+                学习工具
+            </a>
+
+            <a href="#youth">
+                青年投稿
+            </a>
+
+        </nav>
+
+
+        <div class="header-actions">
+
+            <button class="search-icon">
+                搜索
+            </button>
+
+
+            <a
+                class="account-button"
+                href="{{ url_for('profile') }}"
+            >
+                我的 Zoom In
+            </a>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+
+<main>
+
+
+<!-- =========================================================
+     Hero
+========================================================= -->
+
+<section class="hero">
+
+    <div class="hero-inner">
+
+        <div class="hero-label">
+            MEDIA & INFORMATION LITERACY
+        </div>
+
+
+        <h1>
+            同一个故事，
+            <br>
+            为什么会有不同讲法？
+        </h1>
+
+
+        <p class="hero-description">
+            比较不同媒体与机构如何讲述同一文化主题。
+            <br>
+            看来源、找证据、发现被强调和被忽略的信息。
+        </p>
+
+
+        <a
+            class="primary-button"
+            href="#challenge"
+        >
+            开始 Zoom In
+        </a>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     今日挑战
+========================================================= -->
+
+<section
+    class="challenge-section"
+    id="challenge"
+>
+
+    <div class="section-inner">
+
+
+        <div class="section-heading">
+
+            <div>
+
+                <p class="eyebrow">
+                    TODAY'S CHALLENGE
+                </p>
+
+                <h2>
+                    今日挑战
+                </h2>
+
+            </div>
+
+
+            <div class="challenge-count">
+
+                {{ daily_challenge.question_count }}
+
+                <span>
+                    题
+                </span>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="challenge-card">
+
+
+            <div class="challenge-info">
+
+                <span class="topic-tag">
+                    今日主题
+                </span>
+
+
+                <h3>
+                    {{ daily_challenge.topic }}
+                </h3>
+
+
+                <p>
+                    用
+                    {{ daily_challenge.question_count }}
+                    道不同类型的问题，
+                    比较媒体和机构如何选择信息、
+                    使用证据与形成叙事重点。
+                </p>
+
+
+                <div class="challenge-meta">
+
+                    <span>
+                        来源判断
+                    </span>
+
+                    <span>
+                        找证据
+                    </span>
+
+                    <span>
+                        叙事比较
+                    </span>
+
+                    <span>
+                        Perspective Swap
+                    </span>
+
+                </div>
+
+
+                <a
+                    class="primary-button"
+                    href="{{ url_for('challenge') }}"
+                >
+                    开始挑战
+                </a>
+
+            </div>
+
+
+            <div class="challenge-number">
+
+                <span>
+                    TODAY
+                </span>
+
+                <strong>
+                    01
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     搜索
+========================================================= -->
+
+<section class="search-section">
+
+    <div class="section-inner">
+
+        <div class="search-content">
+
+            <p class="eyebrow">
+                ZOOM IN ON A TOPIC
+            </p>
+
+
+            <h2>
+                搜索一个主题，
+                <br>
+                看不同来源怎么讲。
+            </h2>
+
+
+            <div class="big-search">
+
+                <input
+                    type="text"
+                    placeholder="搜索文化符号、历史事件或文化遗产..."
+                >
+
+                <button>
+                    搜索
+                </button>
+
+            </div>
+
+
+            <p class="search-hint">
+                例如：圆明园、丝绸之路、
+                埃菲尔铁塔、新航路开辟
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     今日探索
+========================================================= -->
+
+<section
+    class="explore-section"
+    id="explore"
+>
+
+    <div class="section-inner">
+
+
+        <div class="section-heading">
+
+            <div>
+
+                <p class="eyebrow">
+                    EXPLORE TODAY
+                </p>
+
+                <h2>
+                    今日探索
+                </h2>
+
+            </div>
+
+
+            <p class="section-note">
+                每天随机更新文化符号与历史主题
+            </p>
+
+        </div>
+
+
+
+        <div class="topic-grid">
+
+
+            <a
+                class="topic-card featured"
+                href="{{ url_for('yuanmingyuan') }}"
+            >
+
+                <span class="topic-number">
+                    01
+                </span>
+
+
+                <div>
+
+                    <p class="topic-category">
+                        CULTURAL HERITAGE
+                    </p>
+
+                    <h3>
+                        圆明园
+                    </h3>
+
+                    <p>
+                        人民网与 UNESCO
+                        如何选择不同的信息重点？
+                    </p>
+
+                </div>
+
+
+                <span class="topic-arrow">
+                    →
+                </span>
+
+            </a>
+
+
+
+            <div class="topic-card">
+
+                <span class="topic-number">
+                    02
+                </span>
+
+                <div>
+
+                    <p class="topic-category">
+                        HISTORY
+                    </p>
+
+                    <h3>
+                        丝绸之路
+                    </h3>
+
+                    <p>
+                        贸易、交流与文明接触
+                        可以有哪些不同叙事？
+                    </p>
+
+                </div>
+
+                <span class="coming-soon">
+                    即将上线
+                </span>
+
+            </div>
+
+
+
+            <div class="topic-card">
+
+                <span class="topic-number">
+                    03
+                </span>
+
+                <div>
+
+                    <p class="topic-category">
+                        ARCHITECTURE
+                    </p>
+
+                    <h3>
+                        埃菲尔铁塔
+                    </h3>
+
+                    <p>
+                        国家象征、城市景观，
+                        还是现代工业的产物？
+                    </p>
+
+                </div>
+
+                <span class="coming-soon">
+                    即将上线
+                </span>
+
+            </div>
+
+
+
+            <div class="topic-card">
+
+                <span class="topic-number">
+                    04
+                </span>
+
+                <div>
+
+                    <p class="topic-category">
+                        GLOBAL HISTORY
+                    </p>
+
+                    <h3>
+                        新航路开辟
+                    </h3>
+
+                    <p>
+                        “发现”“交流”“殖民”
+                        如何改变故事的讲法？
+                    </p>
+
+                </div>
+
+                <span class="coming-soon">
+                    即将上线
+                </span>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     学习工具
+========================================================= -->
+
+<section
+    class="home-extra-section alt"
+    id="learning"
+>
+
+    <div class="home-extra-inner">
+
+
+        <div class="extra-heading">
+
+            <div>
+
+                <p class="eyebrow">
+                    LEARNING TOOLS
+                </p>
+
+                <h2>
+                    不只是看内容，
+                    <br>
+                    也练习怎么判断。
+                </h2>
+
+            </div>
+
+
+            <p>
+                Zoom In 把媒体与信息素养拆成几个
+                可以重复练习的小技能。
+            </p>
+
+        </div>
+
+
+
+        <div class="learning-grid">
+
+
+            <div class="learning-card">
+
+                <span class="learning-card-number">
+                    01
+                </span>
+
+                <h3>
+                    看来源
+                </h3>
+
+                <p>
+                    区分新闻媒体、博物馆、
+                    国际组织、研究机构和公众观点。
+                </p>
+
+            </div>
+
+
+            <div class="learning-card">
+
+                <span class="learning-card-number">
+                    02
+                </span>
+
+                <h3>
+                    找证据
+                </h3>
+
+                <p>
+                    回到原始资料，
+                    检查一句判断到底由什么证据支持。
+                </p>
+
+            </div>
+
+
+            <div class="learning-card">
+
+                <span class="learning-card-number">
+                    03
+                </span>
+
+                <h3>
+                    比较叙事
+                </h3>
+
+                <p>
+                    观察不同来源强调了什么，
+                    又有哪些信息没有出现。
+                </p>
+
+            </div>
+
+
+            <div class="learning-card">
+
+                <span class="learning-card-number">
+                    04
+                </span>
+
+                <h3>
+                    Perspective Swap
+                </h3>
+
+                <p>
+                    换一个机构或角色重新讲述，
+                    观察自己的信息选择如何变化。
+                </p>
+
+            </div>
+
+
+            <div class="learning-card">
+
+                <span class="learning-card-number">
+                    05
+                </span>
+
+                <h3>
+                    来源核验
+                </h3>
+
+                <p>
+                    点击原始文章，
+                    检查标题、机构、日期和完整上下文。
+                </p>
+
+            </div>
+
+
+            <div class="learning-card">
+
+                <span class="learning-card-number">
+                    06
+                </span>
+
+                <h3>
+                    信息缺口
+                </h3>
+
+                <p>
+                    问自己：
+                    现在还缺哪些来源和哪些声音？
+                </p>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     青年投稿
+========================================================= -->
+
+<section
+    class="home-extra-section"
+    id="youth"
+>
+
+    <div class="home-extra-inner">
+
+
+        <div class="extra-heading">
+
+            <div>
+
+                <p class="eyebrow">
+                    YOUTH SUBMISSIONS
+                </p>
+
+                <h2>
+                    青年也可以
+                    <br>
+                    带来新的来源。
+                </h2>
+
+            </div>
+
+
+            <p>
+                社区内容不会和已核验事实混在一起。
+                投稿需要保留来源，并经过审核后再进入资料库。
+            </p>
+
+        </div>
+
+
+
+        <div class="submission-list">
+
+
+            <div class="submission-row">
+
+                <span class="submission-number">
+                    01
+                </span>
+
+                <div>
+
+                    <h3>
+                        我在法国博物馆网站看到另一种圆明园材料
+                    </h3>
+
+                    <p>
+                        用户提交 · 等待来源审核
+                    </p>
+
+                </div>
+
+                <span class="submission-status">
+                    REVIEWING
+                </span>
+
+            </div>
+
+
+            <div class="submission-row">
+
+                <span class="submission-number">
+                    02
+                </span>
+
+                <div>
+
+                    <h3>
+                        丝绸之路在不同教材里是怎么描述的？
+                    </h3>
+
+                    <p>
+                        青年选题建议
+                    </p>
+
+                </div>
+
+                <span class="submission-status">
+                    TOPIC IDEA
+                </span>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     方法
+========================================================= -->
+
+<section
+    class="about-section"
+    id="about"
+>
+
+    <div class="section-inner">
+
+        <p class="eyebrow">
+            HOW ZOOM IN WORKS
+        </p>
+
+
+        <h2>
+            不告诉你
+            <br>
+            “应该相信谁”
+        </h2>
+
+
+        <div class="method-grid">
+
+
+            <div class="method-card">
+
+                <span>
+                    01
+                </span>
+
+                <h3>
+                    看来源
+                </h3>
+
+                <p>
+                    谁在说？
+                    它是什么机构？
+                </p>
+
+            </div>
+
+
+            <div class="method-card">
+
+                <span>
+                    02
+                </span>
+
+                <h3>
+                    找证据
+                </h3>
+
+                <p>
+                    这个判断由什么原始材料支持？
+                </p>
+
+            </div>
+
+
+            <div class="method-card">
+
+                <span>
+                    03
+                </span>
+
+                <h3>
+                    比较
+                </h3>
+
+                <p>
+                    不同来源强调了哪些不同内容？
+                </p>
+
+            </div>
+
+
+            <div class="method-card">
+
+                <span>
+                    04
+                </span>
+
+                <h3>
+                    再判断
+                </h3>
+
+                <p>
+                    比较之后，
+                    再形成自己的理解。
+                </p>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     投稿
+========================================================= -->
+
+<section class="contribute-section">
+
+    <div class="section-inner">
+
+
+        <div class="contribute-box">
+
+            <div>
+
+                <p class="eyebrow">
+                    CONTRIBUTE
+                </p>
+
+                <h2>
+                    发现了一个
+                    值得比较的来源？
+                </h2>
+
+                <p>
+                    欢迎提交新的媒体、博物馆、
+                    国际组织或研究资料。
+                </p>
+
+            </div>
+
+
+            <div class="contribute-actions">
+
+                <a
+                    href="mailto:zoomin.project@example.com"
+                    class="secondary-button"
+                >
+                    提交资料
+                </a>
+
+                <a
+                    href="mailto:zoomin.project@example.com"
+                    class="text-link"
+                >
+                    意见反馈
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+</main>
+
+
+
+<footer class="site-footer">
+
+    <div class="footer-inner">
+
+        <strong>
+            Zoom In
+        </strong>
+
+        <p>
+            Compare the narrative.
+            Check the source.
+        </p>
+
+        <span>
+            UNESCO MIL Hackathon Project
+        </span>
+
+    </div>
+
+</footer>
+
+
+</body>
+
+</html>

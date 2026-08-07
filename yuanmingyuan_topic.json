@@ -1,0 +1,256 @@
+{
+  "topic_id": "yuanmingyuan",
+  "name": "圆明园",
+  "title": "圆明园：不同媒体与机构如何讲述它？",
+  "intro": "同一个圆明园，可以被放入历史记忆、文物流失、建筑艺术、遗址保护、公众教育和国际合作等不同叙事中。Zoom In 将不同媒体与机构的资料放在一起，让用户比较它们选择了哪些事实、强调了什么，以及为什么会出现这些差异。",
+  "article_count": 6,
+  "source_count": 2,
+  "sources": [
+    "UNESCO",
+    "人民网"
+  ],
+  "major_narrative_focus": [
+    "建筑与园林艺术",
+    "文物流失与回归",
+    "遗址保护与修复",
+    "历史记忆与战争",
+    "国际合作与风险管理"
+  ],
+  "keywords": [
+    "建筑",
+    "文物",
+    "马首",
+    "西洋楼",
+    "石柱",
+    "兽首",
+    "法国",
+    "园林",
+    "1860",
+    "海晏堂",
+    "宫殿",
+    "流失",
+    "回归",
+    "劫掠",
+    "海外"
+  ],
+  "media_comparison": [
+    {
+      "source": "人民网",
+      "source_type": "新闻媒体",
+      "article_count": 5,
+      "main_narrative_focus": [
+        "建筑与园林艺术",
+        "文物流失与回归",
+        "历史记忆与战争",
+        "遗址保护与修复"
+      ],
+      "main_keywords": [
+        "建筑",
+        "文物",
+        "马首",
+        "西洋楼",
+        "石柱",
+        "兽首",
+        "法国",
+        "园林"
+      ],
+      "articles": [
+        {
+          "article_id": "yuanmingyuan_001",
+          "title": "“万园之园”重现光华（探访国家考古遗址公园）",
+          "theme": "圆明园的建造与数字复原",
+          "date": "2024-03-12",
+          "author": "",
+          "summary": "在残垣断壁上建立的圆明园遗址公园，经过多年的清理整砌、考古发掘、保护修复，逐渐恢复往日光彩。 博物馆内现有“传承·守望——圆明园文物保护成果展”“百年梦圆——圆明园马首铜像回归展”“圆明园石柱回归展”，系统展示了圆明园修缮复建、考古发掘、遗址保护、文物修复、流失文物研究与追索等成果。 马首成为第一件流散海外又回归原处的圆明园文物，其曲折经历是时代变迁的生动写照。",
+          "narrative_focus": [
+            "遗址保护与修复",
+            "文物流失与回归",
+            "建筑与园林艺术"
+          ],
+          "keywords": [
+            "考古",
+            "遗址",
+            "文物",
+            "西洋楼",
+            "建筑",
+            "马首",
+            "石柱",
+            "复原",
+            "游客",
+            "数字"
+          ],
+          "original_url": "https://paper.people.com.cn/rmrbhwb/html/2024-03/12/content_26046257.htm"
+        },
+        {
+          "article_id": "yuanmingyuan_002",
+          "title": "圆明园和兽首的劫难",
+          "theme": "圆明园与十二生肖兽首的劫难",
+          "date": "2009-03-20",
+          "author": "",
+          "summary": "五朝皇帝的宫苑 圆明园始建于康熙四十六年（1707），到咸丰十年（1860）被英法联军劫掠焚毁前，雍正、乾隆、嘉庆、道光、咸丰五朝皇帝，都曾长年居住在此，优游享乐，处理政事，它是清代五帝在150余年间，所创建和经营的一座大型皇家宫苑。 1860年10月6日，英法联军绕经北京城东北郊直扑圆明园，10月7日，英法侵略军开始抢劫圆明园里的财物，一个抢劫者在后来的回忆中说：“我为我看到的东西而震惊！ 史料中并没有明确记载，海晏堂的十二生肖铜兽首究竟何时经何人掠走，在1860年英法联军劫掠圆明园后，上报给法国政府的“缴获战利品”清单中也没有这两个兽首的记录。",
+          "narrative_focus": [
+            "文物流失与回归",
+            "建筑与园林艺术",
+            "历史记忆与战争"
+          ],
+          "keywords": [
+            "兽首",
+            "侵略",
+            "法国",
+            "建筑",
+            "园林",
+            "西方",
+            "1860",
+            "西洋楼",
+            "海晏堂",
+            "宫殿"
+          ],
+          "original_url": "https://paper.people.com.cn/hqrw/html/2009-03/20/content_266439.htm"
+        },
+        {
+          "article_id": "yuanmingyuan_003",
+          "title": "马首铜像还家园 文物回归新典范",
+          "theme": "马首铜像回归圆明园",
+          "date": "2020-12-07",
+          "author": "",
+          "summary": "马首铜像回归圆明园，正如《百年梦圆——圆明园马首铜像回归展》结语中所言：“辗转走过的，是一条中国流失文物的漫漫归途，一路见证的，是中华民族从屈辱颠沛到富强兴盛的历史脚步。 1860年，英法联军侵入北京，圆明园惨遭劫掠焚毁，马首铜像与其他11尊兽首铜像流失海外。 2020年12月1日，国家文物局与北京市人民政府共同举办马首铜像划拨入藏仪式，马首铜像成为第一件回归圆明园的流失海外重要文物，终回故土，百年梦圆。",
+          "narrative_focus": [
+            "文物流失与回归",
+            "建筑与园林艺术",
+            "历史记忆与战争"
+          ],
+          "keywords": [
+            "文物",
+            "马首",
+            "流失",
+            "回归",
+            "兽首",
+            "追索",
+            "法国",
+            "海晏堂",
+            "劫掠",
+            "海外"
+          ],
+          "original_url": "https://paper.people.com.cn/rmrbhwb/html/2020-12/07/content_2022034.htm"
+        },
+        {
+          "article_id": "yuanmingyuan_004",
+          "title": "七件流失海外石柱文物回归圆明园",
+          "theme": "七件石柱文物回归圆明园",
+          "date": "2023-10-14",
+          "author": "",
+          "summary": "本报北京10月13日电 （记者赵晓霞）记者从国家文物局获悉，7件石柱文物近日回归原属地——圆明园，这是继马首铜像之后，又一批回归圆明园的流失海外重要文物。 10月13日，这些石柱在当日开幕的“圆明园石柱回归展”上亮相。 7件石柱文物原系圆明园建筑构件，1860年英法联军劫掠后流失海外，后为挪威卑尔根科德博物馆及西挪威艺术博物馆收藏。",
+          "narrative_focus": [
+            "文物流失与回归",
+            "历史记忆与战争",
+            "建筑与园林艺术"
+          ],
+          "keywords": [
+            "石柱",
+            "文物",
+            "回归",
+            "海外",
+            "流失",
+            "1860",
+            "英法联军",
+            "劫掠",
+            "马首",
+            "建筑"
+          ],
+          "original_url": "https://paper.people.com.cn/rmrbhwb/html/2023-10/14/content_26021493.htm"
+        },
+        {
+          "article_id": "yuanmingyuan_005",
+          "title": "原创话剧讲述匠人传奇",
+          "theme": "样式雷家族与圆明园建筑",
+          "date": "2016-06-23",
+          "author": "",
+          "summary": "作为清代宫廷御用的建筑设计师，从第一代雷发达开始，包括圆明园、颐和园、承德避暑山庄等许多皇家建筑，都是在“样式雷”家族成员的主持下修建的，以致建筑专家们对这一家族一直有着“一家样式雷，半部古建史”的赞誉。 从他开始，雷家七代在200多年间，负责设计和修建皇室建筑如宫殿、皇陵、圆明园、颐和园等。 在舞台上，观众不仅直观地看到当年“样式雷”历代能工巧匠制作的设计平面图（平样）和立体模型（烫样）的艺术化呈现，还能通过多媒体等技术手段，领略到昔日“三山五园”特别是圆明园的壮观与辉煌。",
+          "narrative_focus": [
+            "建筑与园林艺术",
+            "遗址保护与修复"
+          ],
+          "keywords": [
+            "样式雷",
+            "建筑",
+            "设计",
+            "宫殿",
+            "园林",
+            "修缮"
+          ],
+          "original_url": "https://paper.people.com.cn/rmrbhwb/html/2016-06/23/content_1689752.htm"
+        }
+      ]
+    },
+    {
+      "source": "UNESCO",
+      "source_type": "国际组织",
+      "article_count": 1,
+      "main_narrative_focus": [
+        "遗址保护与修复",
+        "建筑与园林艺术",
+        "国际合作与风险管理"
+      ],
+      "main_keywords": [
+        "heritage",
+        "palace",
+        "conservation",
+        "landscape",
+        "risk",
+        "disaster",
+        "gardens",
+        "risk management"
+      ],
+      "articles": [
+        {
+          "article_id": "yuanmingyuan_006",
+          "title": "Beijing’s Parks and Gardens Celebrated the 2025 International Day of",
+          "theme": "园林遗产保护、风险管理与公众教育",
+          "date": "2025-04-24",
+          "author": "",
+          "summary": "News Beijing’s Parks and Gardens Celebrated the 2025 International Day of Monuments and Sites 18 April 2025, Beijing – The “Yihe Spring Gathering” – 2025 International Day of Monuments and Sites Symposium, co-organized by UNESCO Regional Office for East Asia, Beijing Forestry University-International Centre for the Study of the Preservation and Restoration of Cultural Property (BFU-ICCROM) Joint Lab of Heritage and Landscape Conservation, and the Summer Palace Management Office, was successfully……",
+          "narrative_focus": [
+            "遗址保护与修复",
+            "建筑与园林艺术",
+            "国际合作与风险管理"
+          ],
+          "keywords": [
+            "heritage",
+            "palace",
+            "conservation",
+            "landscape",
+            "risk",
+            "disaster",
+            "gardens",
+            "risk management",
+            "garden",
+            "preservation"
+          ],
+          "original_url": "https://www.unesco.org/en/articles/beijings-parks-and-gardens-celebrated-2025-international-day-monuments-and-sites"
+        }
+      ]
+    }
+  ],
+  "why_different": [
+    {
+      "title": "机构使命",
+      "description": "新闻媒体、博物馆和国际组织承担的社会功能不同，因此会选择不同的信息重点。"
+    },
+    {
+      "title": "历史经验",
+      "description": "不同社会对同一历史事件可能形成不同的公共记忆。"
+    },
+    {
+      "title": "目标受众",
+      "description": "面向本国公众、游客、研究者或国际社会时，内容选择会发生变化。"
+    },
+    {
+      "title": "传播目的",
+      "description": "新闻报道、遗产保护、公众教育和文化交流具有不同的传播目的。"
+    },
+    {
+      "title": "信息选择",
+      "description": "任何叙事都会选择部分信息。比较来源可以帮助发现被强调和被弱化的内容。"
+    }
+  ]
+}

@@ -1,0 +1,1784 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>{{ topic.name }} · Zoom In</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+
+    <style>
+
+        /* =====================================================
+           基础
+        ===================================================== */
+
+        body {
+            background: #f7f8fb;
+        }
+
+
+        .topic-page {
+            width: min(
+                1180px,
+                calc(100% - 48px)
+            );
+
+            margin: 0 auto;
+
+            padding:
+                70px 0
+                110px;
+        }
+
+
+        /* =====================================================
+           顶部导航
+        ===================================================== */
+
+        .topic-header {
+            position: sticky;
+
+            top: 0;
+
+            z-index: 100;
+
+            background:
+                rgba(
+                    247,
+                    248,
+                    251,
+                    0.94
+                );
+
+            backdrop-filter:
+                blur(18px);
+
+            border-bottom:
+                1px solid
+                #e5e7ec;
+        }
+
+
+        .topic-header-inner {
+            width: min(
+                1180px,
+                calc(100% - 48px)
+            );
+
+            min-height: 72px;
+
+            margin: 0 auto;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 30px;
+        }
+
+
+        .topic-header-back {
+            margin-left: auto;
+
+            color: #656b77;
+
+            font-size: 14px;
+        }
+
+
+        .topic-header-back:hover {
+            color: #17191f;
+        }
+
+
+        /* =====================================================
+           Hero
+        ===================================================== */
+
+        .topic-hero {
+            padding:
+                35px 0
+                75px;
+
+            border-bottom:
+                1px solid
+                #e2e5ea;
+        }
+
+
+        .topic-breadcrumb {
+            margin-bottom: 32px;
+
+            color: #7c828d;
+
+            font-size: 13px;
+        }
+
+
+        .topic-breadcrumb a:hover {
+            color: #17191f;
+        }
+
+
+        .topic-label {
+            margin: 0 0 17px;
+
+            color: #626a7a;
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            letter-spacing: 1.8px;
+        }
+
+
+        .topic-hero h1 {
+            max-width: 900px;
+
+            margin: 0;
+
+            font-size:
+                clamp(
+                    48px,
+                    7vw,
+                    86px
+                );
+
+            line-height: 1.04;
+
+            letter-spacing: -4px;
+        }
+
+
+        .topic-intro {
+            max-width: 790px;
+
+            margin:
+                32px 0
+                0;
+
+            color: #626873;
+
+            font-size: 17px;
+
+            line-height: 1.9;
+        }
+
+
+        .topic-stats {
+            margin-top: 42px;
+
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 12px;
+        }
+
+
+        .topic-stat {
+            padding:
+                13px 17px;
+
+            background: white;
+
+            border:
+                1px solid
+                #e0e3e9;
+
+            border-radius: 12px;
+        }
+
+
+        .topic-stat strong {
+            display: block;
+
+            margin-bottom: 2px;
+
+            font-size: 20px;
+        }
+
+
+        .topic-stat span {
+            color: #858b96;
+
+            font-size: 11px;
+        }
+
+
+        /* =====================================================
+           重要说明
+        ===================================================== */
+
+        .comparison-note {
+            margin-top: 35px;
+
+            padding:
+                20px 23px;
+
+            display: flex;
+
+            gap: 15px;
+
+            background: #eef2ff;
+
+            border:
+                1px solid
+                #d9e0ff;
+
+            border-radius: 14px;
+
+            color: #4f586a;
+
+            line-height: 1.75;
+
+            font-size: 13px;
+        }
+
+
+        .comparison-note-icon {
+            min-width: 28px;
+
+            height: 28px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background: #4169e1;
+
+            color: white;
+
+            border-radius: 50%;
+
+            font-weight: 800;
+        }
+
+
+        /* =====================================================
+           Section
+        ===================================================== */
+
+        .topic-section {
+            padding:
+                90px 0
+                0;
+        }
+
+
+        .section-top {
+            margin-bottom: 36px;
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            align-items:
+                flex-end;
+
+            gap: 30px;
+        }
+
+
+        .section-top h2 {
+            margin: 0;
+
+            font-size:
+                clamp(
+                    34px,
+                    5vw,
+                    56px
+                );
+
+            line-height: 1.08;
+
+            letter-spacing: -2px;
+        }
+
+
+        .section-top-text {
+            max-width: 430px;
+
+            margin: 0;
+
+            color: #797f8a;
+
+            font-size: 13px;
+
+            line-height: 1.7;
+        }
+
+
+        /* =====================================================
+           来源总览
+        ===================================================== */
+
+        .source-overview-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    2,
+                    minmax(
+                        0,
+                        1fr
+                    )
+                );
+
+            gap: 18px;
+        }
+
+
+        .source-overview-card {
+            min-height: 300px;
+
+            padding: 32px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            background: white;
+
+            border:
+                1px solid
+                #e0e3e8;
+
+            border-radius: 20px;
+        }
+
+
+        .source-overview-card:first-child {
+            background: #f9fafc;
+        }
+
+
+        .source-overview-card:nth-child(2) {
+            background: #eef2ff;
+
+            border-color:
+                #d9e0ff;
+        }
+
+
+        .source-card-top {
+            display: flex;
+
+            align-items:
+                flex-start;
+
+            justify-content:
+                space-between;
+
+            gap: 20px;
+        }
+
+
+        .source-type {
+            display: inline-block;
+
+            padding:
+                6px 10px;
+
+            background:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.72
+                );
+
+            border:
+                1px solid
+                rgba(
+                    0,
+                    0,
+                    0,
+                    0.08
+                );
+
+            border-radius: 999px;
+
+            color: #656b77;
+
+            font-size: 11px;
+        }
+
+
+        .article-count {
+            color: #777e89;
+
+            font-size: 12px;
+        }
+
+
+        .source-overview-card h3 {
+            margin:
+                50px 0
+                15px;
+
+            font-size: 36px;
+
+            line-height: 1;
+
+            letter-spacing: -1.5px;
+        }
+
+
+        .source-overview-card h4 {
+            margin:
+                0 0
+                10px;
+
+            color: #7b818d;
+
+            font-size: 11px;
+
+            font-weight: 600;
+        }
+
+
+        .focus-tags {
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 7px;
+        }
+
+
+        .focus-tag {
+            display: inline-block;
+
+            padding:
+                7px 10px;
+
+            background: white;
+
+            border:
+                1px solid
+                #e0e3e9;
+
+            border-radius: 999px;
+
+            color: #434955;
+
+            font-size: 11px;
+        }
+
+
+        .source-bottom {
+            margin-top: auto;
+
+            padding-top: 30px;
+        }
+
+
+        /* =====================================================
+           详细文章
+        ===================================================== */
+
+        .source-detail {
+            margin-top: 22px;
+
+            overflow: hidden;
+
+            background: white;
+
+            border:
+                1px solid
+                #e0e3e8;
+
+            border-radius: 20px;
+        }
+
+
+        .source-detail-header {
+            padding:
+                30px 32px;
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            align-items:
+                center;
+
+            gap: 20px;
+
+            border-bottom:
+                1px solid
+                #e7e9ee;
+        }
+
+
+        .source-detail-header h3 {
+            margin: 0;
+
+            font-size: 30px;
+
+            letter-spacing: -1px;
+        }
+
+
+        .source-detail-header p {
+            margin:
+                6px 0
+                0;
+
+            color: #7d838e;
+
+            font-size: 12px;
+        }
+
+
+        /* =====================================================
+           article accordion
+        ===================================================== */
+
+        .article-details {
+            border-bottom:
+                1px solid
+                #e7e9ee;
+        }
+
+
+        .article-details:last-child {
+            border-bottom: 0;
+        }
+
+
+        .article-summary-row {
+            padding:
+                24px 32px;
+
+            display: flex;
+
+            align-items:
+                center;
+
+            gap: 20px;
+
+            list-style: none;
+
+            cursor: pointer;
+        }
+
+
+        .article-summary-row::-webkit-details-marker {
+            display: none;
+        }
+
+
+        .article-number {
+            color: #989eaa;
+
+            font-size: 11px;
+
+            font-weight: 700;
+        }
+
+
+        .article-summary-main {
+            min-width: 0;
+
+            flex: 1;
+        }
+
+
+        .article-summary-main h4 {
+            margin: 0;
+
+            font-size: 17px;
+
+            line-height: 1.45;
+        }
+
+
+        .article-meta {
+            margin-top: 6px;
+
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 12px;
+
+            color: #858b96;
+
+            font-size: 11px;
+        }
+
+
+        .article-expand {
+            min-width: 32px;
+
+            height: 32px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border:
+                1px solid
+                #dfe2e8;
+
+            border-radius: 50%;
+
+            font-size: 17px;
+
+            transition:
+                transform
+                0.2s ease;
+        }
+
+
+        details[open]
+        .article-expand {
+            transform:
+                rotate(45deg);
+        }
+
+
+        .article-content {
+            padding:
+                0 32px
+                32px 77px;
+        }
+
+
+        .article-content-block {
+            margin-top: 25px;
+        }
+
+
+        .article-content-label {
+            margin:
+                0 0
+                8px;
+
+            color: #818793;
+
+            font-size: 10px;
+
+            font-weight: 700;
+
+            letter-spacing: 1.2px;
+        }
+
+
+        .article-summary-text {
+            margin: 0;
+
+            color: #4f5561;
+
+            line-height: 1.9;
+
+            font-size: 14px;
+        }
+
+
+        .keyword-list {
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 7px;
+        }
+
+
+        .keyword {
+            padding:
+                6px 9px;
+
+            background: #f4f5f8;
+
+            border-radius: 7px;
+
+            color: #626875;
+
+            font-size: 11px;
+        }
+
+
+        .original-link {
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            margin-top: 5px;
+
+            padding:
+                11px 16px;
+
+            background: #17191f;
+
+            color: white;
+
+            border-radius: 10px;
+
+            font-size: 13px;
+
+            font-weight: 700;
+        }
+
+
+        .original-link:hover {
+            background: #30343d;
+        }
+
+
+        /* =====================================================
+           Why Different
+        ===================================================== */
+
+        .why-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    5,
+                    1fr
+                );
+
+            border-top:
+                1px solid
+                #dfe2e8;
+
+            border-bottom:
+                1px solid
+                #dfe2e8;
+        }
+
+
+        .why-card {
+            min-height: 260px;
+
+            padding:
+                30px 25px;
+
+            border-right:
+                1px solid
+                #dfe2e8;
+        }
+
+
+        .why-card:last-child {
+            border-right: 0;
+        }
+
+
+        .why-number {
+            color: #989eaa;
+
+            font-size: 11px;
+        }
+
+
+        .why-card h3 {
+            margin:
+                60px 0
+                12px;
+
+            font-size: 18px;
+        }
+
+
+        .why-card p {
+            margin: 0;
+
+            color: #777e89;
+
+            font-size: 13px;
+
+            line-height: 1.75;
+        }
+
+
+        /* =====================================================
+           挑战 CTA
+        ===================================================== */
+
+        .topic-challenge {
+            margin-top: 90px;
+
+            padding: 50px;
+
+            display: flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                space-between;
+
+            gap: 40px;
+
+            background: #17191f;
+
+            color: white;
+
+            border-radius: 24px;
+        }
+
+
+        .topic-challenge h2 {
+            margin:
+                5px 0
+                12px;
+
+            font-size:
+                clamp(
+                    34px,
+                    5vw,
+                    55px
+                );
+
+            line-height: 1.05;
+
+            letter-spacing: -2px;
+        }
+
+
+        .topic-challenge p {
+            max-width: 620px;
+
+            margin: 0;
+
+            color: #aeb3bd;
+
+            line-height: 1.8;
+        }
+
+
+        .topic-challenge-button {
+            min-width: 150px;
+
+            padding:
+                14px 20px;
+
+            text-align: center;
+
+            background: #4169e1;
+
+            color: white;
+
+            border-radius: 12px;
+
+            font-weight: 700;
+        }
+
+
+        .topic-challenge-button:hover {
+            background: #3559c7;
+        }
+
+
+        /* =====================================================
+           Footer
+        ===================================================== */
+
+        .topic-footer {
+            padding:
+                35px 0;
+
+            background: white;
+
+            border-top:
+                1px solid
+                #e4e6eb;
+        }
+
+
+        .topic-footer-inner {
+            width: min(
+                1180px,
+                calc(100% - 48px)
+            );
+
+            margin: 0 auto;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 25px;
+
+            color: #7a7f89;
+
+            font-size: 12px;
+        }
+
+
+        .topic-footer strong {
+            color: #17191f;
+
+            font-size: 16px;
+        }
+
+
+        .topic-footer span {
+            margin-left: auto;
+        }
+
+
+        /* =====================================================
+           平板
+        ===================================================== */
+
+        @media (
+            max-width: 900px
+        ) {
+
+            .source-overview-grid {
+                grid-template-columns:
+                    1fr;
+            }
+
+
+            .why-grid {
+                grid-template-columns:
+                    repeat(
+                        2,
+                        1fr
+                    );
+            }
+
+
+            .why-card {
+                border-bottom:
+                    1px solid
+                    #dfe2e8;
+            }
+
+
+            .topic-challenge {
+                flex-direction:
+                    column;
+
+                align-items:
+                    flex-start;
+            }
+
+        }
+
+
+        /* =====================================================
+           手机
+        ===================================================== */
+
+        @media (
+            max-width: 600px
+        ) {
+
+            .topic-page,
+            .topic-header-inner,
+            .topic-footer-inner {
+                width:
+                    calc(
+                        100% - 30px
+                    );
+            }
+
+
+            .topic-page {
+                padding-top: 40px;
+            }
+
+
+            .topic-hero h1 {
+                letter-spacing: -2px;
+            }
+
+
+            .section-top {
+                align-items:
+                    flex-start;
+
+                flex-direction:
+                    column;
+            }
+
+
+            .source-overview-card {
+                padding: 24px;
+            }
+
+
+            .article-summary-row {
+                padding:
+                    22px 20px;
+            }
+
+
+            .article-number {
+                display: none;
+            }
+
+
+            .article-content {
+                padding:
+                    0 20px
+                    25px;
+            }
+
+
+            .why-grid {
+                grid-template-columns:
+                    1fr;
+            }
+
+
+            .why-card {
+                min-height: auto;
+
+                border-right: 0;
+            }
+
+
+            .why-card h3 {
+                margin-top: 30px;
+            }
+
+
+            .topic-challenge {
+                padding:
+                    35px 25px;
+            }
+
+
+            .topic-footer-inner {
+                flex-direction:
+                    column;
+
+                align-items:
+                    flex-start;
+
+                gap: 4px;
+            }
+
+
+            .topic-footer span {
+                margin-left: 0;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+
+<body>
+
+
+<!-- =========================================================
+     顶部导航
+========================================================= -->
+
+<header class="topic-header">
+
+    <div class="topic-header-inner">
+
+        <a
+            class="logo"
+            href="{{ url_for('home') }}"
+        >
+            Zoom In
+        </a>
+
+        <a
+            class="topic-header-back"
+            href="{{ url_for('home') }}"
+        >
+            ← 返回首页
+        </a>
+
+    </div>
+
+</header>
+
+
+
+<!-- =========================================================
+     主页面
+========================================================= -->
+
+<main class="topic-page">
+
+
+    <!-- =====================================================
+         Hero
+    ====================================================== -->
+
+    <section class="topic-hero">
+
+        <div class="topic-breadcrumb">
+
+            <a href="{{ url_for('home') }}">
+                首页
+            </a>
+
+            &nbsp;/&nbsp;
+
+            探索主题
+
+            &nbsp;/&nbsp;
+
+            {{ topic.name }}
+
+        </div>
+
+
+        <p class="topic-label">
+            ZOOM IN · CULTURAL HERITAGE
+        </p>
+
+
+        <h1>
+            {{ topic.title }}
+        </h1>
+
+
+        <p class="topic-intro">
+            {{ topic.intro }}
+        </p>
+
+
+        <div class="topic-stats">
+
+            <div class="topic-stat">
+
+                <strong>
+                    {{ topic.source_count }}
+                </strong>
+
+                <span>
+                    当前来源
+                </span>
+
+            </div>
+
+
+            <div class="topic-stat">
+
+                <strong>
+                    {{ topic.article_count }}
+                </strong>
+
+                <span>
+                    当前资料
+                </span>
+
+            </div>
+
+
+            <div class="topic-stat">
+
+                <strong>
+                    {{ topic.major_narrative_focus | length }}
+                </strong>
+
+                <span>
+                    已识别叙事重点
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="comparison-note">
+
+            <div class="comparison-note-icon">
+                i
+            </div>
+
+            <div>
+
+                {% if topic.comparison_note %}
+
+                    {{ topic.comparison_note }}
+
+                {% else %}
+
+                    这里比较的是当前收集到的具体媒体、
+                    机构与文章，不把任何一个来源等同于
+                    某个国家或群体的唯一视角。
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         不同来源怎么讲
+    ====================================================== -->
+
+    <section class="topic-section">
+
+        <div class="section-top">
+
+            <div>
+
+                <p class="eyebrow">
+                    COMPARE THE NARRATIVE
+                </p>
+
+                <h2>
+                    不同媒体与机构
+                    <br>
+                    怎么讲？
+                </h2>
+
+            </div>
+
+
+            <p class="section-top-text">
+                这里不是判断谁“代表正确答案”，
+                而是比较不同来源选择了哪些事实、
+                反复强调哪些信息，以及它们之间
+                存在哪些信息差异。
+            </p>
+
+        </div>
+
+
+
+        <!-- =================================================
+             来源总览卡片
+        ================================================== -->
+
+        <div class="source-overview-grid">
+
+            {% for source in topic.media_comparison %}
+
+                <div class="source-overview-card">
+
+
+                    <div class="source-card-top">
+
+                        <span class="source-type">
+                            {{ source.source_type }}
+                        </span>
+
+                        <span class="article-count">
+                            {{ source.article_count }}
+                            篇资料
+                        </span>
+
+                    </div>
+
+
+                    <h3>
+                        {{ source.source }}
+                    </h3>
+
+
+                    <div class="source-bottom">
+
+                        <h4>
+                            当前材料主要叙事重点
+                        </h4>
+
+
+                        <div class="focus-tags">
+
+                            {% for focus in source.main_narrative_focus %}
+
+                                <span class="focus-tag">
+                                    {{ focus }}
+                                </span>
+
+                            {% endfor %}
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         每一个来源的具体文章
+    ====================================================== -->
+
+    <section class="topic-section">
+
+        <div class="section-top">
+
+            <div>
+
+                <p class="eyebrow">
+                    SOURCE BY SOURCE
+                </p>
+
+                <h2>
+                    打开来源，
+                    <br>
+                    看它具体说了什么
+                </h2>
+
+            </div>
+
+
+            <p class="section-top-text">
+                摘要和叙事标签来自当前的数据整理结果。
+                你可以展开文章，也可以直接进入原始网站
+                查看完整上下文。
+            </p>
+
+        </div>
+
+
+
+        {% for source in topic.media_comparison %}
+
+
+            <div class="source-detail">
+
+
+                <!-- 来源标题 -->
+
+                <div class="source-detail-header">
+
+                    <div>
+
+                        <h3>
+                            {{ source.source }}
+                        </h3>
+
+                        <p>
+                            {{ source.source_type }}
+                            ·
+                            {{ source.article_count }}
+                            篇当前资料
+                        </p>
+
+                    </div>
+
+
+                    <span class="source-type">
+                        SOURCE
+                    </span>
+
+                </div>
+
+
+
+                <!-- 文章 -->
+
+                {% for article in source.articles %}
+
+
+                    <details class="article-details">
+
+
+                        <summary class="article-summary-row">
+
+
+                            <span class="article-number">
+
+                                {{ "%02d" | format(loop.index) }}
+
+                            </span>
+
+
+                            <div class="article-summary-main">
+
+                                <h4>
+                                    {{ article.title }}
+                                </h4>
+
+
+                                <div class="article-meta">
+
+                                    {% if article.date %}
+
+                                        <span>
+                                            {{ article.date }}
+                                        </span>
+
+                                    {% endif %}
+
+
+                                    {% if article.theme %}
+
+                                        <span>
+                                            {{ article.theme }}
+                                        </span>
+
+                                    {% endif %}
+
+
+                                    {% if article.author %}
+
+                                        <span>
+                                            {{ article.author }}
+                                        </span>
+
+                                    {% endif %}
+
+                                </div>
+
+                            </div>
+
+
+                            <span class="article-expand">
+                                +
+                            </span>
+
+
+                        </summary>
+
+
+
+                        <div class="article-content">
+
+
+                            <!-- 摘要 -->
+
+                            <div class="article-content-block">
+
+                                <p class="article-content-label">
+                                    BRIEF SUMMARY
+                                </p>
+
+
+                                <p class="article-summary-text">
+
+                                    {{ article.summary }}
+
+                                </p>
+
+                            </div>
+
+
+
+                            <!-- 叙事重点 -->
+
+                            {% if article.narrative_focus %}
+
+                                <div class="article-content-block">
+
+                                    <p class="article-content-label">
+                                        NARRATIVE FOCUS
+                                    </p>
+
+
+                                    <div class="focus-tags">
+
+                                        {% for focus in article.narrative_focus %}
+
+                                            <span class="focus-tag">
+                                                {{ focus }}
+                                            </span>
+
+                                        {% endfor %}
+
+                                    </div>
+
+                                </div>
+
+                            {% endif %}
+
+
+
+                            <!-- 关键词 -->
+
+                            {% if article.keywords %}
+
+                                <div class="article-content-block">
+
+                                    <p class="article-content-label">
+                                        KEYWORDS
+                                    </p>
+
+
+                                    <div class="keyword-list">
+
+                                        {% for keyword in article.keywords %}
+
+                                            <span class="keyword">
+                                                {{ keyword }}
+                                            </span>
+
+                                        {% endfor %}
+
+                                    </div>
+
+                                </div>
+
+                            {% endif %}
+
+
+
+                            <!-- 原文 -->
+
+                            {% if article.original_url %}
+
+                                <div class="article-content-block">
+
+                                    <p class="article-content-label">
+                                        ORIGINAL SOURCE
+                                    </p>
+
+
+                                    <a
+                                        class="original-link"
+                                        href="{{ article.original_url }}"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        查看原始资料
+                                        ↗
+                                    </a>
+
+                                </div>
+
+                            {% endif %}
+
+
+                        </div>
+
+
+                    </details>
+
+
+                {% endfor %}
+
+
+            </div>
+
+
+        {% endfor %}
+
+
+    </section>
+
+
+
+    <!-- =====================================================
+         Why Different
+    ====================================================== -->
+
+    <section class="topic-section">
+
+        <div class="section-top">
+
+            <div>
+
+                <p class="eyebrow">
+                    WHY DIFFERENT?
+                </p>
+
+                <h2>
+                    为什么讲法
+                    <br>
+                    会不一样？
+                </h2>
+
+            </div>
+
+
+            <p class="section-top-text">
+                差异不一定意味着某一方在“说谎”。
+                机构使命、受众、传播目的和信息选择，
+                都可能影响最终呈现出来的叙事。
+            </p>
+
+        </div>
+
+
+
+        <div class="why-grid">
+
+            {% for item in topic.why_different %}
+
+                <div class="why-card">
+
+                    <span class="why-number">
+
+                        {{ "%02d" | format(loop.index) }}
+
+                    </span>
+
+
+                    <h3>
+                        {{ item.title }}
+                    </h3>
+
+
+                    <p>
+                        {{ item.description }}
+                    </p>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         当前材料缺口
+    ====================================================== -->
+
+    <section class="topic-section">
+
+        <div class="section-top">
+
+            <div>
+
+                <p class="eyebrow">
+                    WHAT'S MISSING?
+                </p>
+
+                <h2>
+                    现在还缺
+                    <br>
+                    哪些声音？
+                </h2>
+
+            </div>
+
+        </div>
+
+
+        <div class="comparison-note">
+
+            <div class="comparison-note-icon">
+                ?
+            </div>
+
+            <div>
+
+                当前版本只有
+                <strong>
+                    {{ topic.source_count }}
+                </strong>
+                个来源。
+
+                这已经可以进行初步比较，
+                但还不足以呈现圆明园相关叙事的全部范围。
+
+                后续可以继续加入博物馆、
+                圆明园管理机构、其他国家文化机构、
+                学术研究等可追溯资料。
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         Challenge CTA
+    ====================================================== -->
+
+    <section class="topic-challenge">
+
+        <div>
+
+            <p class="eyebrow">
+                TEST YOUR PERSPECTIVE
+            </p>
+
+            <h2>
+                看完资料，
+                <br>
+                再挑战一次
+            </h2>
+
+            <p>
+                试着判断来源、寻找证据，
+                并观察自己在比较不同材料之后，
+                对圆明园的理解有没有发生变化。
+            </p>
+
+        </div>
+
+
+        <a
+            class="topic-challenge-button"
+            href="{{ url_for('challenge') }}"
+        >
+            开始今日挑战 →
+        </a>
+
+    </section>
+
+
+</main>
+
+
+
+<!-- =========================================================
+     Footer
+========================================================= -->
+
+<footer class="topic-footer">
+
+    <div class="topic-footer-inner">
+
+        <strong>
+            Zoom In
+        </strong>
+
+        <span>
+            Compare the narrative.
+            Check the source.
+        </span>
+
+        <span>
+            UNESCO MIL Hackathon Project
+        </span>
+
+    </div>
+
+</footer>
+
+
+</body>
+
+</html>

@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>我的 Zoom In</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+    <style>
+
+        body {
+            background: #f7f8fb;
+        }
+
+
+        .profile-header {
+            background: rgba(247, 248, 251, 0.94);
+
+            border-bottom: 1px solid #e4e7ec;
+        }
+
+
+        .profile-header-inner {
+            width: min(1180px, calc(100% - 48px));
+            min-height: 72px;
+
+            margin: 0 auto;
+
+            display: flex;
+            align-items: center;
+        }
+
+
+        .profile-header-actions {
+            margin-left: auto;
+
+            display: flex;
+            gap: 22px;
+
+            font-size: 14px;
+        }
+
+
+        .profile-header-actions a {
+            color: #656b77;
+        }
+
+
+        .profile-header-actions a:hover {
+            color: #17191f;
+        }
+
+
+        .profile-page {
+            width: min(1180px, calc(100% - 48px));
+
+            margin: 0 auto;
+
+            padding: 75px 0 120px;
+        }
+
+
+        /* =====================================================
+           用户 Hero
+        ===================================================== */
+
+        .profile-hero {
+            display: grid;
+
+            grid-template-columns:
+                minmax(0, 1.7fr)
+                minmax(280px, 0.8fr);
+
+            gap: 22px;
+        }
+
+
+        .profile-main-card,
+        .points-card {
+            border: 1px solid #e0e3e9;
+            border-radius: 24px;
+        }
+
+
+        .profile-main-card {
+            min-height: 390px;
+
+            padding: 45px;
+
+            display: flex;
+            flex-direction: column;
+
+            background: white;
+        }
+
+
+        .profile-top {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+        }
+
+
+        .avatar {
+            width: 82px;
+            height: 82px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            flex-shrink: 0;
+
+            border-radius: 50%;
+
+            background: #17191f;
+            color: white;
+
+            font-size: 27px;
+            font-weight: 800;
+        }
+
+
+        .profile-name {
+            margin: 0;
+
+            font-size: 35px;
+            letter-spacing: -1.5px;
+        }
+
+
+        .profile-level {
+            margin: 7px 0 0;
+
+            color: #737985;
+
+            font-size: 13px;
+        }
+
+
+        .profile-message {
+            max-width: 630px;
+
+            margin: auto 0 0;
+
+            color: #636a76;
+
+            line-height: 1.8;
+        }
+
+
+        /* =====================================================
+           积分卡
+        ===================================================== */
+
+        .points-card {
+            padding: 35px;
+
+            display: flex;
+            flex-direction: column;
+
+            background: #eef2ff;
+            border-color: #dce3ff;
+        }
+
+
+        .points-label {
+            color: #60697d;
+
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.4px;
+        }
+
+
+        .points-number {
+            margin-top: 17px;
+
+            font-size: 72px;
+            line-height: 1;
+
+            font-weight: 800;
+            letter-spacing: -4px;
+        }
+
+
+        .points-unit {
+            margin-left: 8px;
+
+            color: #707789;
+
+            font-size: 14px;
+        }
+
+
+        .shop-button {
+            margin-top: auto;
+
+            padding: 14px 18px;
+
+            display: block;
+
+            background: #4169e1;
+            color: white;
+
+            border-radius: 12px;
+
+            text-align: center;
+
+            font-weight: 700;
+        }
+
+
+        .shop-button:hover {
+            background: #3559c7;
+        }
+
+
+        /* =====================================================
+           统计
+        ===================================================== */
+
+        .profile-section {
+            margin-top: 90px;
+        }
+
+
+        .profile-section-heading {
+            margin-bottom: 32px;
+        }
+
+
+        .profile-section-heading h2 {
+            margin: 0;
+
+            font-size: 42px;
+            letter-spacing: -1.5px;
+        }
+
+
+        .profile-section-heading p {
+            max-width: 620px;
+
+            margin-top: 10px;
+
+            color: #777e89;
+
+            line-height: 1.75;
+        }
+
+
+        .stats-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 12px;
+        }
+
+
+        .stat-card {
+            min-height: 185px;
+
+            padding: 25px;
+
+            display: flex;
+            flex-direction: column;
+
+            background: white;
+
+            border: 1px solid #e0e3e9;
+            border-radius: 18px;
+        }
+
+
+        .stat-card span {
+            color: #858b96;
+
+            font-size: 12px;
+        }
+
+
+        .stat-card strong {
+            margin-top: auto;
+
+            font-size: 42px;
+            letter-spacing: -2px;
+        }
+
+
+        /* =====================================================
+           成就
+        ===================================================== */
+
+        .achievement-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 14px;
+        }
+
+
+        .achievement-card {
+            min-height: 220px;
+
+            padding: 27px;
+
+            background: white;
+
+            border: 1px solid #e0e3e9;
+            border-radius: 18px;
+        }
+
+
+        .achievement-icon {
+            width: 44px;
+            height: 44px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #eef2ff;
+            color: #4169e1;
+
+            border-radius: 12px;
+
+            font-weight: 800;
+        }
+
+
+        .achievement-card h3 {
+            margin: 45px 0 8px;
+
+            font-size: 19px;
+        }
+
+
+        .achievement-card p {
+            margin: 0;
+
+            color: #7b818c;
+
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+
+        /* =====================================================
+           积分获取
+        ===================================================== */
+
+        .points-table {
+            overflow: hidden;
+
+            background: white;
+
+            border: 1px solid #e0e3e9;
+            border-radius: 18px;
+        }
+
+
+        .points-row {
+            padding: 20px 25px;
+
+            display: flex;
+            align-items: center;
+            gap: 20px;
+
+            border-bottom: 1px solid #e8eaef;
+        }
+
+
+        .points-row:last-child {
+            border-bottom: 0;
+        }
+
+
+        .points-row strong {
+            min-width: 65px;
+
+            margin-left: auto;
+
+            color: #4169e1;
+
+            text-align: right;
+        }
+
+
+        .points-row-title {
+            font-weight: 700;
+        }
+
+
+        .points-row-description {
+            margin-top: 4px;
+
+            color: #828894;
+
+            font-size: 12px;
+        }
+
+
+        @media (max-width: 850px) {
+
+            .profile-hero {
+                grid-template-columns: 1fr;
+            }
+
+
+            .stats-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+
+            .achievement-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+
+        @media (max-width: 550px) {
+
+            .profile-page,
+            .profile-header-inner {
+                width: calc(100% - 30px);
+            }
+
+
+            .profile-main-card,
+            .points-card {
+                padding: 27px;
+            }
+
+
+            .profile-top {
+                align-items: flex-start;
+            }
+
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header class="profile-header">
+
+    <div class="profile-header-inner">
+
+        <a
+            class="logo"
+            href="{{ url_for('home') }}"
+        >
+            Zoom In
+        </a>
+
+
+        <div class="profile-header-actions">
+
+            <a href="{{ url_for('challenge') }}">
+                今日挑战
+            </a>
+
+            <a href="{{ url_for('shop') }}">
+                积分商城
+            </a>
+
+            <a href="{{ url_for('home') }}">
+                返回首页
+            </a>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+
+<main class="profile-page">
+
+
+    <!-- =====================================================
+         用户信息
+    ====================================================== -->
+
+    <section class="profile-hero">
+
+
+        <div class="profile-main-card">
+
+            <div class="profile-top">
+
+                <div class="avatar">
+                    Z
+                </div>
+
+
+                <div>
+
+                    <p class="eyebrow">
+                        MY ZOOM IN
+                    </p>
+
+                    <h1 class="profile-name">
+                        Zoomer
+                    </h1>
+
+                    <p class="profile-level">
+                        Lv. 3 · Narrative Explorer
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <p class="profile-message">
+                继续比较不同来源、核验证据，
+                并记录自己的判断如何发生变化。
+                这里保存你的 Zoom In 学习进度。
+            </p>
+
+        </div>
+
+
+
+        <div class="points-card">
+
+            <span class="points-label">
+                MY POINTS
+            </span>
+
+
+            <div>
+
+                <span
+                    class="points-number"
+                    id="pointsNumber"
+                >
+                    320
+                </span>
+
+                <span class="points-unit">
+                    pts
+                </span>
+
+            </div>
+
+
+            <a
+                class="shop-button"
+                href="{{ url_for('shop') }}"
+            >
+                去积分商城 →
+            </a>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         学习数据
+    ====================================================== -->
+
+    <section class="profile-section">
+
+        <div class="profile-section-heading">
+
+            <p class="eyebrow">
+                LEARNING PROGRESS
+            </p>
+
+            <h2>
+                我的学习进度
+            </h2>
+
+        </div>
+
+
+        <div class="stats-grid">
+
+
+            <div class="stat-card">
+
+                <span>
+                    连续挑战
+                </span>
+
+                <strong>
+                    7 天
+                </strong>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <span>
+                    完成挑战
+                </span>
+
+                <strong>
+                    12
+                </strong>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <span>
+                    已探索主题
+                </span>
+
+                <strong>
+                    4
+                </strong>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <span>
+                    来源核验
+                </span>
+
+                <strong>
+                    18
+                </strong>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         成就
+    ====================================================== -->
+
+    <section class="profile-section">
+
+        <div class="profile-section-heading">
+
+            <p class="eyebrow">
+                ACHIEVEMENTS
+            </p>
+
+            <h2>
+                我的成就
+            </h2>
+
+            <p>
+                成就不是为了比较排名，
+                而是记录你完成过哪些信息素养练习。
+            </p>
+
+        </div>
+
+
+        <div class="achievement-grid">
+
+
+            <div class="achievement-card">
+
+                <div class="achievement-icon">
+                    01
+                </div>
+
+                <h3>
+                    Source Checker
+                </h3>
+
+                <p>
+                    完成第一次原始来源核验。
+                </p>
+
+            </div>
+
+
+            <div class="achievement-card">
+
+                <div class="achievement-icon">
+                    07
+                </div>
+
+                <h3>
+                    Seven-Day Zoomer
+                </h3>
+
+                <p>
+                    连续 7 天完成 Zoom In 挑战。
+                </p>
+
+            </div>
+
+
+            <div class="achievement-card">
+
+                <div class="achievement-icon">
+                    ↔
+                </div>
+
+                <h3>
+                    Perspective Swapper
+                </h3>
+
+                <p>
+                    完成 Perspective Swap 身份互换练习。
+                </p>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         积分规则
+    ====================================================== -->
+
+    <section class="profile-section">
+
+        <div class="profile-section-heading">
+
+            <p class="eyebrow">
+                EARN POINTS
+            </p>
+
+            <h2>
+                如何获得积分？
+            </h2>
+
+        </div>
+
+
+        <div class="points-table">
+
+
+            <div class="points-row">
+
+                <div>
+
+                    <div class="points-row-title">
+                        完成今日挑战
+                    </div>
+
+                    <div class="points-row-description">
+                        完成当天全部题目。
+                    </div>
+
+                </div>
+
+                <strong>
+                    +20
+                </strong>
+
+            </div>
+
+
+            <div class="points-row">
+
+                <div>
+
+                    <div class="points-row-title">
+                        连续 7 天挑战
+                    </div>
+
+                    <div class="points-row-description">
+                        保持连续学习记录。
+                    </div>
+
+                </div>
+
+                <strong>
+                    +50
+                </strong>
+
+            </div>
+
+
+            <div class="points-row">
+
+                <div>
+
+                    <div class="points-row-title">
+                        核验原始来源
+                    </div>
+
+                    <div class="points-row-description">
+                        从题目或详情页进入原始资料。
+                    </div>
+
+                </div>
+
+                <strong>
+                    +10
+                </strong>
+
+            </div>
+
+
+            <div class="points-row">
+
+                <div>
+
+                    <div class="points-row-title">
+                        提交优质来源
+                    </div>
+
+                    <div class="points-row-description">
+                        提交可追溯的新媒体或机构材料。
+                    </div>
+
+                </div>
+
+                <strong>
+                    +30
+                </strong>
+
+            </div>
+
+
+            <div class="points-row">
+
+                <div>
+
+                    <div class="points-row-title">
+                        投稿被采用
+                    </div>
+
+                    <div class="points-row-description">
+                        经人工审核后加入 Zoom In 资料库。
+                    </div>
+
+                </div>
+
+                <strong>
+                    +100
+                </strong>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+</main>
+
+
+
+<script>
+
+    /*
+     * Hackathon Demo
+     *
+     * 现在先使用浏览器 localStorage
+     * 保存模拟积分。
+     *
+     * 如果第一次打开，
+     * 默认 320 分。
+     */
+
+    let points =
+        localStorage.getItem(
+            "zoomInPoints"
+        );
+
+
+    if (
+        points === null
+    ) {
+
+        points = 320;
+
+        localStorage.setItem(
+            "zoomInPoints",
+            points
+        );
+
+    }
+
+
+    document.getElementById(
+        "pointsNumber"
+    ).textContent =
+        points;
+
+</script>
+
+
+</body>
+
+</html>
